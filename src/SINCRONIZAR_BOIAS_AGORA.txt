@@ -1,0 +1,94 @@
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║       🌊 SINCRONIZAR BOIAS PNBOIA AGORA (MANUAL)             ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+
+
+⚡ DISPARAR SINCRONIZAÇÃO INSTANTÂNEA (NÃO ESPERAR 3 HORAS)
+
+
+═══════════════════════════════════════════════════════════════
+            OPÇÃO A: VIA GITHUB.COM (MAIS FÁCIL)
+═══════════════════════════════════════════════════════════════
+
+1. Ir para: https://github.com/SEU_USUARIO/SEU_REPO/actions
+
+2. Clicar em: "PNBOIA Auto Sync" (lista à esquerda)
+
+3. Clicar em: "Run workflow" (dropdown à direita)
+
+4. Clicar em: "Run workflow" (botão verde)
+
+5. Aguardar 1-2 minutos
+
+6. Ver logs de sucesso:
+   ✅ Sincronização concluída com sucesso!
+   📊 Resultado: 14/14 boias sincronizadas
+
+⏱️  TEMPO: 2 minutos
+
+
+═══════════════════════════════════════════════════════════════
+          OPÇÃO B: VIA CONSOLE (MAIS RÁPIDO)
+═══════════════════════════════════════════════════════════════
+
+1. Abrir Console (F12) no navegador
+
+2. Copiar e colar este código:
+
+await fetch('https://rqgubpqniscyoojkwltn.supabase.co/functions/v1/make-server-2d5da22b/pnboia/sync-all?useMock=false', {
+  method: 'POST',
+  headers: {
+    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJxZ3VicHFuaXNjeW9vamt3bHRuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAzNzQxOTIsImV4cCI6MjA3NTk1MDE5Mn0.hQkPC_Z9RBEwlGHZBpWw6hMIVxfre2UVOKRhVOvsJ9o'
+  }
+}).then(r => r.json()).then(data => {
+  console.log('🌊 RESULTADO:', data);
+  if (data.success >= 10) {
+    console.log('✅ SUCESSO! Maioria das boias sincronizadas!');
+  } else {
+    console.log('⚠️ Poucas boias sincronizadas (pode ser normal se Marinha offline)');
+  }
+});
+
+3. Pressionar Enter
+
+4. Ver resultado:
+   🌊 RESULTADO: { success: 14, failed: 0, total: 14 }
+   ✅ SUCESSO! Maioria das boias sincronizadas!
+
+⏱️  TEMPO: 30 segundos
+
+
+═══════════════════════════════════════════════════════════════
+              DEPOIS DA SINCRONIZAÇÃO
+═══════════════════════════════════════════════════════════════
+
+VERIFICAR SE FUNCIONOU:
+
+1. Abrir: VERIFICAR_PNBOIA_AGORA.js
+
+2. Copiar código no Console (F12)
+
+3. Ver resultado:
+   ✅ Boias ativas: 14/14
+   📊 Dados disponíveis!
+
+
+═══════════════════════════════════════════════════════════════
+              QUANDO FAZER SINCRONIZAÇÃO MANUAL?
+═══════════════════════════════════════════════════════════════
+
+SITUAÇÕES:
+
+✅ Quando adicionar observação e quiser ver bias correction agora
+✅ Quando testar sistema pela primeira vez
+✅ Quando quiser dados super frescos (< 10 min)
+
+NÃO PRECISA:
+❌ No dia-a-dia (GitHub Actions faz a cada 3h)
+❌ De madrugada (automático)
+❌ Toda vez que visitar site (desnecessário)
+
+
+═══════════════════════════════════════════════════════════════

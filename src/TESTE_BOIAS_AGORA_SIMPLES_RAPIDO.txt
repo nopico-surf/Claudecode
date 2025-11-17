@@ -1,0 +1,62 @@
+# 🧪 TESTE DEFINITIVO - DADOS DE BOIA NO ADMIN
+
+## ✅ CORREÇÕES APLICADAS:
+
+1. **pnboiaApi.ts** → MAX_DATA_AGE_HOURS = 36h ✅
+2. **biasCorrection.ts** → MAX_DATA_AGE_MINUTES = 2160min (36h) ✅
+
+## 🎯 TESTE AGORA:
+
+1. **Acesse o site principal**: https://seu-site.com
+   - Abra o console (F12)
+   - Procure por logs de PNBOIA:
+   ```
+   ✅ PNBOIA: Boia Florianópolis encontrada (87km)
+   Dados: Hs=0.68m, Dir=120°, Tp=6.2s
+   Idade: 1548 minutos (25.8h)
+   ```
+
+2. **Acesse o admin**: https://seu-site.com/admin
+   - Faça login: **Limao@32949**
+   - Clique em "Adicionar Observação"
+   - Selecione **Morro das Pedras**
+   - AGUARDE o forecast carregar
+   - Veja no console:
+
+   ```
+   📊 DADOS PARA OBSERVAÇÃO:
+      🎯 PREVISTO (site): X.XX m
+      🏖️  OFFSHORE (API): X.XX m
+      🌊 BOIA PNBOIA: 0.68 m  ← DEVE APARECER O VALOR REAL!
+      🆔 BOIA ID: Florianópolis
+   ```
+
+3. **Adicione a observação** com qualquer altura real
+4. **Vá para "Observações"** e confira se mostra:
+   - Coluna BOIA: **0.68m** (ou valor da boia)
+   - Abaixo: **PNBOIA Florianópolis**
+
+---
+
+## 🐛 SE AINDA MOSTRAR "N/A":
+
+Cole aqui o LOG DO CONSOLE quando adicionar a observação!
+
+Especialmente estas linhas:
+
+```
+📊 VALORES SALVOS NO HOURLY FORECAST:
+   Offshore RAW: X.XXm
+   Buoy Height: X.XXm (ID_DA_BOIA)  ← ESTE É O VALOR IMPORTANTE!
+   Wave Height FINAL: X.XXm
+```
+
+---
+
+## 💡 EXPLICAÇÃO:
+
+As observações **ANTIGAS** (antes da correção) ficaram com `buoy: null` no banco de dados.
+
+**Não dá para "recalcular" observações antigas** porque os dados de boia de dias atrás não existem mais.
+
+**NOVAS** observações devem pegar os dados corretamente!

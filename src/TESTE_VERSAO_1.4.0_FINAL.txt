@@ -1,0 +1,77 @@
+═══════════════════════════════════════════════════════════════════════════
+🎯 CORREÇÃO DEFINITIVA - VERSÃO 1.4.0
+═══════════════════════════════════════════════════════════════════════════
+
+PROBLEMA IDENTIFICADO NO SEU PRINT:
+✅ Backend funcionando (14/14 boias)
+❌ Dashboard mostrando "N/A" e "Offline" para TODAS as boias
+
+CAUSA RAIZ:
+O endpoint /status retornava:
+  { id: 'pnboia-...', hasData: true }
+
+Mas o frontend esperava:
+  { buoyId: 'pnboia-...', hasData: true, status: 'active', dataAgeMinutes: 15, isFresh: true }
+
+CORREÇÃO APLICADA:
+✅ Campo "id" → "buoyId"  
+✅ Adicionado campo "status" ('active'/'stale'/'no_data')
+✅ Adicionado campo "dataAgeMinutes" (idade em minutos)
+✅ Adicionado campo "isFresh" (true se < 1 hora)
+✅ Cálculo inteligente de status baseado na idade dos dados
+
+═══════════════════════════════════════════════════════════════════════════
+
+INSTRUÇÕES:
+1. AGUARDE 2 MINUTOS (deploy do Edge Function)
+2. RECARREGUE A PÁGINA DO ADMIN (Ctrl+R ou F5)
+3. Veja o dashboard funcionar PERFEITAMENTE!
+
+═══════════════════════════════════════════════════════════════════════════
+
+TESTE OPCIONAL (se quiser confirmar antes):
+
+Abra console (F12) e cole:
+
+fetch('https://rqgubpqniscyoojkwltn.supabase.co/functions/v1/make-server-2d5da22b/pnboia/status',{headers:{Authorization:'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJxZ3VicHFuaXNjeW9vamt3bHRuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAzNzQxOTIsImV4cCI6MjA3NTk1MDE5Mn0.hQkPC_Z9RBEwlGHZBpWw6hMIVxfre2UVOKRhVOvsJ9o'}}).then(r=>r.json()).then(d=>{console.clear();console.log('🧪 VERSÃO:',d.status?'1.4.0':'<1.4.0');console.log('');console.log('📊 RESUMO:');console.log('   Total:',d.total);console.log('   Ativas:',d.active);console.log('   Antigas:',d.stale||'N/A');console.log('   Offline:',d.offline||'N/A');console.log('');console.log('🔍 PRIMEIRA BOIA:');const b=d.buoys[0];console.log('   ID:',b.buoyId||b.id);console.log('   Status:',b.status||'❌ FALTANDO');console.log('   Idade:',b.dataAgeMinutes!==undefined?b.dataAgeMinutes+'min':'❌ FALTANDO');console.log('   Fresh:',b.isFresh!==undefined?b.isFresh:'❌ FALTANDO');console.log('');if(b.status&&b.dataAgeMinutes!==undefined&&b.isFresh!==undefined){console.log('🎉 FORMATO CORRETO! Recarregue o admin!');}else{console.log('⏳ Deploy pendente. Aguarde 1min e rode novamente.');}});
+
+═══════════════════════════════════════════════════════════════════════════
+
+RESULTADO ESPERADO:
+
+🧪 VERSÃO: 1.4.0
+
+📊 RESUMO:
+   Total: 14
+   Ativas: 14
+   Antigas: 0
+   Offline: 0
+
+🔍 PRIMEIRA BOIA:
+   ID: pnboia-rio-grande
+   Status: active
+   Idade: 15min
+   Fresh: true
+
+🎉 FORMATO CORRETO! Recarregue o admin!
+
+═══════════════════════════════════════════════════════════════════════════
+
+PRÓXIMOS PASSOS APÓS O DEPLOY:
+
+1. ✅ Recarregue a página do admin (Ctrl+R)
+2. ✅ Veja a tabela mostrando:
+   - Nomes das boias (Rio Grande, Florianópolis, etc)
+   - Idade dos dados (ex: "15 min", "2h 30min")
+   - Status correto (Ativo ✅, Antigo ⏰, Offline ⚪)
+3. ✅ Gráficos de estatísticas funcionando
+4. ✅ Dados oceanográficos visíveis
+
+═══════════════════════════════════════════════════════════════════════════
+
+⏰ AGUARDE 2 MINUTOS E DEPOIS:
+   
+   1. Recarregue /admin
+   2. Me envie print do dashboard funcionando! 📸
+
+═══════════════════════════════════════════════════════════════════════════

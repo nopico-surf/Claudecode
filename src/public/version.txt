@@ -1,0 +1,5 @@
+v2.7.2-build-fix
+Timestamp: 2024-11-16 23:00:00
+Configuração Vercel: outputDirectory = build/
+Revertido para configuração que funcionou (commit de 9 horas atrás)
+Pronto para deploy no Vercel!

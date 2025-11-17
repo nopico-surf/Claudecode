@@ -1,0 +1,2 @@
+Este arquivo força o Vercel a fazer redeploy e incluir o favicon.svg
+Pode deletar depois.

@@ -1,0 +1,50 @@
+═══════════════════════════════════════════════════════════
+✨ v2.5.0 - LIMPEZA FINAL (Banners de teste removidos)
+═══════════════════════════════════════════════════════════
+
+🎉 FAVICON FUNCIONANDO!
+   • Ícone das ondas aparecendo corretamente
+   • Implementado via /imports/favicon.ts (mesma estratégia dos SVGs)
+   • Hook useFavicon() injeta dinamicamente
+
+✅ BANNERS DE TESTE REMOVIDOS:
+
+1️⃣ Banner React (App.tsx):
+   ❌ REMOVIDO: TestBanner component
+   ❌ REMOVIDO: 3 instâncias do <TestBanner />
+
+2️⃣ Banner HTML (index.html):
+   ❌ REMOVIDO: Banner HTML estático amarelo
+   ❌ REMOVIDO: Script de deploy time
+
+═══════════════════════════════════════════════════════════
+📋 COPIAR E COLAR NO TERMINAL:
+═══════════════════════════════════════════════════════════
+
+git add .
+git commit -m "chore: v2.5 - limpeza final (favicon funcionando, banners removidos)"
+git push
+
+═══════════════════════════════════════════════════════════
+🎯 RESULTADO:
+═══════════════════════════════════════════════════════════
+
+Site agora está LIMPO:
+   ✅ Favicon funcionando
+   ✅ Sem banners de teste
+   ✅ Interface profissional
+   ✅ Pronto para produção
+
+═══════════════════════════════════════════════════════════
+🌊 PRÓXIMOS PASSOS (opcional):
+═══════════════════════════════════════════════════════════
+
+Se quiser fazer mais melhorias:
+   • Adicionar meta tags Open Graph (compartilhamento social)
+   • Otimizar performance (lazy loading)
+   • Adicionar PWA manifest (instalar no celular)
+   • Analytics detalhados
+
+═══════════════════════════════════════════════════════════
+
+Site pronto para uso! 🚀

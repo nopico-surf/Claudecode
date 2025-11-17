@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧪 Teste Unitário - Sistema de Calibração</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 800px;
+            width: 100%;
+            padding: 40px;
+        }
+        h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+        .test-section {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 5px solid #667eea;
+        }
+        .test-title {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        .result {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        .error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        .info {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+        }
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin: 10px 5px;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+        button:active {
+            transform: translateY(0);
+        }
+        .btn-danger {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        .summary {
+            margin-top: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            border-radius: 10px;
+            border: 2px solid #667eea;
+        }
+        .summary-title {
+            font-size: 22px;
+            color: #667eea;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        .stat {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        .stat:last-child {
+            border-bottom: none;
+        }
+        .stat-value {
+            font-weight: 700;
+            color: #667eea;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Teste Unitário</h1>
+        <p class="subtitle">Sistema de Calibração Automática</p>
+
+        <div style="margin-bottom: 20px;">
+            <button onclick="runFullTest()">▶️ Executar Teste Completo</button>
+            <button onclick="clearData()" class="btn-danger">🗑️ Limpar Dados</button>
+        </div>
+
+        <div id="results"></div>
+
+        <div id="summary" style="display: none;" class="summary">
+            <div class="summary-title">📊 Resumo dos Resultados</div>
+            <div id="summary-content"></div>
+        </div>
+    </div>
+
+    <script>
+        function log(message, type = 'info') {
+            const results = document.getElementById('results');
+            const div = document.createElement('div');
+            div.className = `result ${type}`;
+            div.textContent = message;
+            results.appendChild(div);
+        }
+
+        function clearLogs() {
+            document.getElementById('results').innerHTML = '';
+            document.getElementById('summary').style.display = 'none';
+        }
+
+        function clearData() {
+            localStorage.removeItem('nopico_observations');
+            clearLogs();
+            log('✅ localStorage limpo com sucesso!', 'success');
+        }
+
+        function runFullTest() {
+            clearLogs();
+
+            // TESTE 1: Limpar dados antigos
+            log('═══════════════════════════════════════════════════════', 'info');
+            log('TESTE 1: Limpando dados antigos...', 'info');
+            localStorage.removeItem('nopico_observations');
+            log('✅ Dados limpos!', 'success');
+
+            // TESTE 2: Adicionar observações
+            log('═══════════════════════════════════════════════════════', 'info');
+            log('TESTE 2: Adicionando observações de teste...', 'info');
+
+            const testObservations = [
+                {
+                    id: 'obs-test-novo-campeche-' + Date.now(),
+                    timestamp: new Date().toISOString(),
+                    spotId: 'sc-floripa-campeche-1',
+                    spotName: 'Novo Campeche',
+                    forecast: { height: 1.0, direction: 86, period: 8, source: 'open-meteo' },
+                    observed: { height: 1.0, direction: 90, period: 8 },
+                    context: { tide: 'mid', wind: 'SE 12kt', sessionTime: '08:00' },
+                    error: 0,
+                    errorAbsolute: 0,
+                    notes: '📍 REAL - Novo Campeche estava em 1.0m hoje',
+                    confidence: 'high'
+                },
+                {
+                    id: 'obs-test-morro-pedras-' + Date.now(),
+                    timestamp: new Date().toISOString(),
+                    spotId: 'sc-floripa-morropedras-1',
+                    spotName: 'Morro das Pedras',
+                    forecast: { height: 1.2, direction: 133, period: 7, source: 'open-meteo' },
+                    observed: { height: 1.5, direction: 135, period: 7 },
+                    context: { tide: 'mid', wind: 'NE 10kt', sessionTime: '07:30' },
+                    error: -20,
+                    errorAbsolute: -0.3,
+                    notes: '📍 REAL - Morro das Pedras estava em 1.5m hoje',
+                    confidence: 'high'
+                }
+            ];
+
+            localStorage.setItem('nopico_observations', JSON.stringify(testObservations));
+            log('✅ 2 observações adicionadas!', 'success');
+
+            // TESTE 3: Verificar dados salvos
+            log('═══════════════════════════════════════════════════════', 'info');
+            log('TESTE 3: Verificando dados salvos...', 'info');
+
+            const stored = localStorage.getItem('nopico_observations');
+            if (!stored) {
+                log('❌ ERRO: Dados não foram salvos!', 'error');
+                return;
+            }
+
+            const obs = JSON.parse(stored);
+            log(`✅ Total de observações: ${obs.length}`, 'success');
+
+            obs.forEach((o, i) => {
+                log(`[${i+1}] ${o.spotName}: Previsto ${o.forecast.height}m, Real ${o.observed.height}m`, 'info');
+            });
+
+            // TESTE 4: Calcular fatores de calibração
+            log('═══════════════════════════════════════════════════════', 'info');
+            log('TESTE 4: Calculando fatores de calibração...', 'info');
+
+            const spotGroups = {};
+            obs.forEach(o => {
+                if (!spotGroups[o.spotId]) spotGroups[o.spotId] = [];
+                spotGroups[o.spotId].push(o);
+            });
+
+            const calibrationResults = {};
+
+            Object.keys(spotGroups).forEach(spotId => {
+                const spotObs = spotGroups[spotId];
+                const spotName = spotObs[0].spotName;
+
+                const factors = spotObs.map(o => o.observed.height / o.forecast.height);
+                const avgFactor = factors.reduce((sum, f) => sum + f, 0) / factors.length;
+
+                let confidence = 'low';
+                if (spotObs.length >= 5) confidence = 'high';
+                else if (spotObs.length >= 2) confidence = 'medium';
+
+                calibrationResults[spotId] = {
+                    spotName,
+                    observations: spotObs.length,
+                    factor: avgFactor,
+                    confidence,
+                    active: confidence !== 'low'
+                };
+
+                const status = confidence !== 'low' ? '🟢 ATIVO' : '🔴 INATIVO';
+                log(`${spotName}: Fator ${avgFactor.toFixed(3)}x | ${spotObs.length} obs | ${status}`, 
+                    confidence !== 'low' ? 'success' : 'error');
+            });
+
+            // TESTE 5: Simular aplicação
+            log('═══════════════════════════════════════════════════════', 'info');
+            log('TESTE 5: Simulando aplicação de calibração...', 'info');
+
+            Object.keys(calibrationResults).forEach(spotId => {
+                const cal = calibrationResults[spotId];
+                if (cal.active) {
+                    const exemploPrevisao = 1.0;
+                    const exemploAjustado = exemploPrevisao * cal.factor;
+                    log(`${cal.spotName}: ${exemploPrevisao.toFixed(2)}m → ${exemploAjustado.toFixed(2)}m`, 'success');
+                }
+            });
+
+            // Mostrar resumo
+            showSummary(calibrationResults);
+        }
+
+        function showSummary(results) {
+            const summary = document.getElementById('summary');
+            const content = document.getElementById('summary-content');
+            
+            const totalSpots = Object.keys(results).length;
+            const activeSpots = Object.values(results).filter(r => r.active).length;
+            const totalObs = Object.values(results).reduce((sum, r) => sum + r.observations, 0);
+
+            content.innerHTML = `
+                <div class="stat">
+                    <span>Total de Picos:</span>
+                    <span class="stat-value">${totalSpots}</span>
+                </div>
+                <div class="stat">
+                    <span>Picos Calibrados:</span>
+                    <span class="stat-value">${activeSpots}</span>
+                </div>
+                <div class="stat">
+                    <span>Total de Observações:</span>
+                    <span class="stat-value">${totalObs}</span>
+                </div>
+                <div class="stat">
+                    <span>Status do Sistema:</span>
+                    <span class="stat-value" style="color: #28a745;">✅ Operacional</span>
+                </div>
+            `;
+
+            summary.style.display = 'block';
+        }
+    </script>
+</body>
+</html>

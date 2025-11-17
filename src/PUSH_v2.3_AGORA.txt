@@ -1,0 +1,68 @@
+═══════════════════════════════════════════════════════════
+🌊 FAVICON v2.3 - PUSH AGORA
+═══════════════════════════════════════════════════════════
+
+🎯 SOLUÇÃO: Usar vercel.json em vez de _headers
+
+✅ O QUE FOI CORRIGIDO:
+   • Deletado /public/_headers/ (pasta problemática)
+   • Configurado vercel.json com headers
+   • Atualizado HTML e App.tsx para v2.3
+
+═══════════════════════════════════════════════════════════
+📋 COPIAR E COLAR NO TERMINAL:
+═══════════════════════════════════════════════════════════
+
+git add .
+git commit -m "fix: favicon v2.3 - usando vercel.json (Figma Make recria _headers automaticamente)"
+git push
+
+═══════════════════════════════════════════════════════════
+⏱️  DEPOIS DO PUSH:
+═══════════════════════════════════════════════════════════
+
+1. AGUARDAR deploy (1-3 minutos)
+
+2. TESTAR favicon existe:
+   https://nopicosurf.vercel.app/favicon.svg
+   
+   ✅ Deve mostrar ondas azuis sobre amarelo
+   ❌ Se aparecer 404, reportar
+
+3. TESTAR headers:
+   Copiar no terminal:
+   
+   curl -I https://nopicosurf.vercel.app/favicon.svg
+   
+   Procurar por:
+   ✅ x-favicon-version: v2.3
+   ✅ x-nopico-version: v2.3-vercel-json
+
+4. HARD REFRESH no navegador:
+   • Windows/Linux: Ctrl + Shift + R
+   • Mac: Cmd + Shift + R
+
+5. VERIFICAR aba do navegador:
+   ✅ Deve aparecer ícone das ondas 🌊
+
+═══════════════════════════════════════════════════════════
+📊 POR QUE AGORA VAI FUNCIONAR:
+═══════════════════════════════════════════════════════════
+
+ANTES:
+   /public/_headers (arquivo) → Figma Make transforma em pasta → Vercel não processa → 404
+
+AGORA:
+   /vercel.json → Figma Make não toca → Vercel processa nativamente → 200 OK ✅
+
+═══════════════════════════════════════════════════════════
+⚠️  IMPORTANTE:
+═══════════════════════════════════════════════════════════
+
+Se o Figma Make criar novamente /public/_headers/, IGNORE!
+
+A configuração real está em vercel.json e funciona independentemente.
+
+═══════════════════════════════════════════════════════════
+
+🚀 PUSH AGORA E ME INFORME O RESULTADO!

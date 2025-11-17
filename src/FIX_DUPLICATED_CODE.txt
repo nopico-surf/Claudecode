@@ -1,0 +1,49 @@
+ERRO DE BUILD: Código duplicado detectado!
+
+ARQUIVO: /components/admin/ObservationForm.tsx
+
+PROBLEMA:
+Linhas 287-311 contêm código duplicado que deve ser DELETADO.
+
+SOLUÇÃO RÁPIDA:
+Abra o arquivo /components/admin/ObservationForm.tsx e delete AS LINHAS 287 ATÉ 311.
+
+O código que deve ser DELETADO é:
+
+```typescript
+    if (erroAbsoluto > ERRO_THRESHOLD) {
+      const fatorSugerido = (observation.observed.height / observation.forecast.height).toFixed(3);
+      const percentualAjuste = ((parseFloat(fatorSugerido) - 1) * 100).toFixed(0);
+      const direcao = parseFloat(fatorSugerido) > 1 ? 'aumentar' : 'reduzir';
+      
+      const mensagem = `🎯 CALIBRAÇÃO AUTOMÁTICA DISPONÍVEL\\n\\n` +
+        `Pico: ${observation.spotName}\\n` +
+        `Erro detectado: ${erroAbsoluto.toFixed(0)}% (>${ERRO_THRESHOLD}%)\\n\\n` +
+        `Previsto: ${observation.forecast.height.toFixed(2)}m\\n` +
+        `Observado: ${observation.observed.height.toFixed(2)}m\\n\\n` +
+        `💡 Sugestão: ${direcao} previsões em ${Math.abs(parseFloat(percentualAjuste))}%\\n` +
+        `Fator de ajuste: ${fatorSugerido}x\\n\\n` +
+        `⚡ ATIVAR calibração automática para este pico?\\n\\n` +
+        `✅ Se SIM: As próximas previsões já serão ajustadas automaticamente\\n` +
+        `❌ Se NÃO: Observação fica registrada, mas sem ajuste automático`;
+      
+      if (confirm(mensagem)) {
+        // ✅ Usuário aceitou! O sistema já vai usar automaticamente
+        // porque o liveAdjustments.ts lê do localStorage
+        console.log(`✅ [CALIBRAÇÃO] Ajuste automático ATIVADO para ${observation.spotName}`);
+        alert(`✅ Calibração ativada!\\n\\nO site agora ajustará automaticamente as previsões de ${observation.spotName} usando o fator ${fatorSugerido}x`);
+      } else {
+        console.log(`⚠️ [CALIBRAÇÃO] Usuário optou por NÃO ativar ajuste para ${observation.spotName}`);
+      }
+    }
+```
+
+DEPOIS DE DELETAR:
+A linha 287 deve ficar:
+
+    onSaved();
+    onClose();
+  };
+
+O código correto (que fica nas linhas 125-156) já faz tudo isso ANTES de salvar.
+Este bloco duplicado (linhas 287-311) tentava fazer DEPOIS e está causando o erro.

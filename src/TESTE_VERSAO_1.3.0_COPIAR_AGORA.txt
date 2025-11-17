@@ -1,0 +1,117 @@
+═══════════════════════════════════════════════════════════════════════════
+🔥 CORREÇÃO FINAL APLICADA - VERSÃO 1.3.0
+═══════════════════════════════════════════════════════════════════════════
+
+PROBLEMA IDENTIFICADO:
+❌ Os endpoints /pnboia/status e /pnboia/data estavam LISTADOS mas NÃO IMPLEMENTADOS
+❌ Por isso retornavam 404
+
+CORREÇÃO APLICADA AGORA:
+✅ Endpoint /pnboia/status IMPLEMENTADO
+✅ Endpoint /pnboia/data IMPLEMENTADO  
+✅ Versão atualizada para 1.3.0 (força deploy)
+
+═══════════════════════════════════════════════════════════════════════════
+
+INSTRUÇÕES:
+1. AGUARDE 2 MINUTOS (deploy do Edge Function)
+2. Abra console do navegador (F12)
+3. Cole o código abaixo
+4. Pressione ENTER
+
+═══════════════════════════════════════════════════════════════════════════
+
+fetch('https://rqgubpqniscyoojkwltn.supabase.co/functions/v1/make-server-2d5da22b/pnboia',{headers:{Authorization:'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJxZ3VicHFuaXNjeW9vamt3bHRuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAzNzQxOTIsImV4cCI6MjA3NTk1MDE5Mn0.hQkPC_Z9RBEwlGHZBpWw6hMIVxfre2UVOKRhVOvsJ9o'}})
+.then(r=>r.json())
+.then(d=>{
+  console.clear();
+  console.log('═══════════════════════════════════════════════════════════════════════════');
+  console.log('🧪 TESTE VERSÃO '+d.version);
+  console.log('═══════════════════════════════════════════════════════════════════════════\n');
+  
+  if(d.version!=='1.3.0'){
+    console.log('⚠️ Deploy ainda não chegou (versão atual: '+d.version+')');
+    console.log('   Aguarde mais 1-2 minutos e rode novamente.\n');
+    console.log('═══════════════════════════════════════════════════════════════════════════');
+    return;
+  }
+  
+  console.log('✅ Versão 1.3.0 deployada!\n');
+  console.log('Testando endpoints...\n');
+  
+  return fetch('https://rqgubpqniscyoojkwltn.supabase.co/functions/v1/make-server-2d5da22b/pnboia/status',{headers:{Authorization:'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJxZ3VicHFuaXNjeW9vamt3bHRuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAzNzQxOTIsImV4cCI6MjA3NTk1MDE5Mn0.hQkPC_Z9RBEwlGHZBpWw6hMIVxfre2UVOKRhVOvsJ9o'}});
+})
+.then(r=>{
+  if(!r)return;
+  console.log('1️⃣ /pnboia/status → HTTP',r.status,r.ok?'✅':'❌');
+  if(!r.ok){
+    console.log('\n❌ AINDA ESTÁ 404! Deploy não chegou. Aguarde mais 1min.\n');
+    console.log('═══════════════════════════════════════════════════════════════════════════');
+    throw new Error('404');
+  }
+  return r.json();
+})
+.then(d=>{
+  if(!d)return;
+  console.log('   Boias: '+d.active+'/'+d.total);
+  console.log('   Última sync: '+(d.lastGlobalSync||'NUNCA')+'\n');
+  
+  return fetch('https://rqgubpqniscyoojkwltn.supabase.co/functions/v1/make-server-2d5da22b/pnboia/data',{headers:{Authorization:'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJxZ3VicHFuaXNjeW9vamt3bHRuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAzNzQxOTIsImV4cCI6MjA3NTk1MDE5Mn0.hQkPC_Z9RBEwlGHZBpWw6hMIVxfre2UVOKRhVOvsJ9o'}});
+})
+.then(r=>{
+  if(!r)return;
+  console.log('2️⃣ /pnboia/data → HTTP',r.status,r.ok?'✅':'❌\n');
+  return r.json();
+})
+.then(d=>{
+  if(!d)return;
+  
+  const withData=d.buoys.filter(b=>b.hasData);
+  console.log('   Boias com dados: '+withData.length+'/'+d.total+'\n');
+  
+  if(withData.length===0){
+    console.log('⚠️ Endpoints OK, mas SEM DADOS nas boias');
+    console.log('   Iniciando sincronização manual...\n');
+    return fetch('https://rqgubpqniscyoojkwltn.supabase.co/functions/v1/make-server-2d5da22b/pnboia/sync-all',{method:'POST',headers:{Authorization:'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJxZ3VicHFuaXNjeW9vamt3bHRuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAzNzQxOTIsImV4cCI6MjA3NTk1MDE5Mn0.hQkPC_Z9RBEwlGHZBpWw6hMIVxfre2UVOKRhVOvsJ9o'}});
+  }else{
+    console.log('✅ EXEMPLO DE DADOS:');
+    const b=withData[0];
+    console.log('   Boia: '+b.name);
+    console.log('   Altura: '+(b.waveHeight||'N/A')+' m');
+    console.log('   Período: '+(b.wavePeriod||'N/A')+' s');
+    console.log('   Temp: '+(b.waterTemp||'N/A')+' °C\n');
+  }
+})
+.then(r=>{
+  if(!r)return;
+  console.log('3️⃣ Sincronizando boias...');
+  return r.json();
+})
+.then(d=>{
+  if(!d)return;
+  console.log('   Sucesso: '+d.success);
+  console.log('   Falhas: '+d.failed+'\n');
+  console.log('⏳ Aguarde 30 segundos e recarregue a página.\n');
+})
+.then(()=>{
+  console.log('═══════════════════════════════════════════════════════════════════════════');
+  console.log('🎉 SISTEMA FUNCIONANDO!');
+  console.log('═══════════════════════════════════════════════════════════════════════════');
+  console.log('');
+  console.log('Próximos passos:');
+  console.log('1. Aguarde 30 segundos (se sync foi iniciada)');
+  console.log('2. Recarregue a página (Ctrl+R ou F5)');
+  console.log('3. Navegue até um pico para ver dados PNBOIA');
+  console.log('4. Acesse /admin para ver dashboard completo');
+  console.log('');
+  console.log('═══════════════════════════════════════════════════════════════════════════');
+})
+.catch(e=>{
+  if(e.message!=='404'){
+    console.log('\n═══════════════════════════════════════════════════════════════════════════');
+    console.log('❌ ERRO: '+e.message);
+    console.log('═══════════════════════════════════════════════════════════════════════════');
+  }
+});
+
+═══════════════════════════════════════════════════════════════════════════

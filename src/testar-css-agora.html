@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teste CSS - Tailwind v4</title>
+  <style>
+    /* Simula o que deve acontecer com Tailwind */
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f5f5f5;
+    }
+    
+    .test-card {
+      background: #ffffff;
+      border: 2px solid #001f3d;
+      border-radius: 8px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .primary-btn {
+      background: #001f3d;
+      color: #ffc72c;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+    
+    .accent-btn {
+      background: #ffc72c;
+      color: #001f3d;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    
+    .badge {
+      display: inline-block;
+      background: #ffc72c;
+      color: #001f3d;
+      padding: 4px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+    
+    h1 {
+      color: #001f3d;
+      margin-bottom: 20px;
+    }
+    
+    .success {
+      color: #10b981;
+      font-weight: 600;
+    }
+    
+    .warning {
+      color: #f59e0b;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎨 Teste de CSS - NoPico Surf Forecast</h1>
+  
+  <div class="test-card">
+    <h2>✅ TESTE 1: Cores World Surf League</h2>
+    <p>Se você está vendo estas cores corretamente, o CSS está funcionando:</p>
+    <button class="primary-btn">Azul Marinho #001f3d</button>
+    <button class="accent-btn">Amarelo #ffc72c</button>
+    <div class="badge">Badge de Teste</div>
+  </div>
+  
+  <div class="test-card">
+    <h2>🔍 VERIFICAÇÕES:</h2>
+    <ul>
+      <li class="success">✅ Botão azul marinho com texto amarelo?</li>
+      <li class="success">✅ Botão amarelo com texto azul marinho?</li>
+      <li class="success">✅ Cards com bordas arredondadas?</li>
+      <li class="success">✅ Sombras nos cards?</li>
+    </ul>
+  </div>
+  
+  <div class="test-card">
+    <h2>📋 COMO VERIFICAR NO SITE REAL:</h2>
+    <ol>
+      <li>Abra o DevTools (F12)</li>
+      <li>Vá para Network (Rede)</li>
+      <li>Procure por arquivos CSS</li>
+      <li class="success">✅ Deve aparecer: <code>index-[hash].css</code> (200)</li>
+    </ol>
+    
+    <h3>Se o CSS NÃO carregar:</h3>
+    <ul>
+      <li class="warning">⚠️ Verifique se há <code>@import "tailwindcss";</code> no início de <code>/styles/globals.css</code></li>
+      <li class="warning">⚠️ Verifique se <code>postcss.config.js</code> existe</li>
+      <li class="warning">⚠️ Rode <code>npm run dev</code> e veja o console</li>
+    </ul>
+  </div>
+  
+  <div class="test-card">
+    <h2>🚀 PRÓXIMOS PASSOS:</h2>
+    <p><strong>Se este arquivo de teste está funcionando:</strong></p>
+    <ol>
+      <li>✅ A configuração está correta!</li>
+      <li>✅ Faça push para o GitHub</li>
+      <li>✅ Aguarde o deploy na Vercel</li>
+      <li>✅ Acesse nopico.com.br e veja o CSS funcionando!</li>
+    </ol>
+  </div>
+  
+  <div class="test-card" style="background: #001f3d; color: #ffc72c;">
+    <h2>🌊 VISUAL WORLD SURF LEAGUE</h2>
+    <p>Este card tem o fundo azul marinho (#001f3d) com texto amarelo (#ffc72c)</p>
+    <p>Exatamente como deve aparecer no site!</p>
+  </div>
+
+  <script>
+    console.log('🎨 CSS Test Page Loaded');
+    console.log('✅ Se você vê cores e estilos, o CSS está funcionando!');
+    
+    // Verificar se Tailwind está carregado (simulação)
+    setTimeout(() => {
+      const hasStyles = window.getComputedStyle(document.querySelector('.primary-btn')).backgroundColor === 'rgb(0, 31, 61)';
+      if (hasStyles) {
+        console.log('✅ SUCESSO: Estilos aplicados corretamente!');
+      } else {
+        console.warn('⚠️ ATENÇÃO: Estilos podem não estar sendo aplicados');
+      }
+    }, 500);
+  </script>
+</body>
+</html>

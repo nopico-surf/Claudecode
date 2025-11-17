@@ -1,0 +1,209 @@
+═══════════════════════════════════════════════════════════════════════════
+📍 VISUAL: ONDE MUDAR A URL DO VERCEL
+═══════════════════════════════════════════════════════════════════════════
+
+
+┌───────────────────────────────────────────────────────────────────────┐
+│ ARQUIVO: /services/vercelConfig.ts                                   │
+└───────────────────────────────────────────────────────────────────────┘
+
+    1: /**
+    2:  * ═══════════════════════════════════════════════════════════════
+    3:  * VERCEL BACKEND CONFIGURATION
+    4:  * ═══════════════════════════════════════════════════════════════
+    ...
+   20: 
+   21: // ========================================
+   22: // CONFIGURAÇÃO
+   23: // ========================================
+   24: 
+   25: /**
+   26:  * URL base do Vercel (MUDAR DEPOIS DO DEPLOY!)
+   27:  * 
+   28:  * ANTES DO DEPLOY:
+   29:  * - Deixar como 'https://nopicosurf.vercel.app' (atual)
+   30:  * 
+   31:  * DEPOIS DO DEPLOY:
+   32:  * - Trocar pela URL do seu projeto Vercel
+   33:  * - Exemplo: 'https://nopico-surf-abc123.vercel.app'
+   34:  */
+   35: export const VERCEL_PROJECT_URL = 'https://nopicosurf.vercel.app';
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+       │                                   │
+       │                                   └─────────────────────┐
+       │                                                         │
+       NÃO MEXER NESTA PARTE          ┌─────────────────────────┘
+                                      │
+                            ┌─────────▼─────────────────────────────┐
+                            │ TROCAR ESTA PARTE:                    │
+                            │                                       │
+                            │ 'https://nopicosurf.vercel.app'       │
+                            │          ▲                            │
+                            │          │                            │
+                            │   SELECIONAR E SUBSTITUIR             │
+                            │          │                            │
+                            │          ▼                            │
+                            │ 'https://SUA-URL-AQUI.vercel.app'     │
+                            └───────────────────────────────────────┘
+   36: 
+   37: /**
+   38:  * URL completa da API Vercel
+   39:  */
+   40: export const VERCEL_API_URL = `${VERCEL_PROJECT_URL}/api`;
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+       ESTA LINHA NÃO MEXER! (Usa a URL de cima automaticamente)
+
+
+═══════════════════════════════════════════════════════════════════════════
+🎯 APENAS 1 LUGAR PARA MUDAR
+═══════════════════════════════════════════════════════════════════════════
+
+    LINHA 35 SOMENTE!
+    
+    ANTES:
+    export const VERCEL_PROJECT_URL = 'https://nopicosurf.vercel.app';
+    
+    DEPOIS:
+    export const VERCEL_PROJECT_URL = 'https://nopico-surf-xyz123.vercel.app';
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                       COLAR SUA URL AQUI
+
+
+═══════════════════════════════════════════════════════════════════════════
+🔍 ZOOM NA LINHA 35
+═══════════════════════════════════════════════════════════════════════════
+
+    export const VERCEL_PROJECT_URL = 'https://nopicosurf.vercel.app';
+    ──────────────────────────────────┬────────────────────────────────
+                                      │
+                    ┌─────────────────┴─────────────────┐
+                    │                                   │
+            NÃO MEXER AQUI                      MEXER SÓ AQUI
+            (nome da variável)                  (valor entre '')
+                    │                                   │
+                    │              ┌────────────────────┘
+                    │              │
+                    │              │  SELECIONAR:
+                    │              │  https://nopicosurf.vercel.app
+                    │              │  (TUDO entre as aspas)
+                    │              │
+                    │              │  COLAR:
+                    │              │  https://nopico-surf-xyz123.vercel.app
+                    │              │  (URL que o Vercel te deu)
+                    │              │
+                    └──────────────┴──────────────────────────────────
+
+
+═══════════════════════════════════════════════════════════════════════════
+🎬 PASSO A PASSO VISUAL
+═══════════════════════════════════════════════════════════════════════════
+
+PASSO 1: SELECIONAR
+──────────────────────────────────────────────────────────────────────────
+
+    export const VERCEL_PROJECT_URL = 'https://nopicosurf.vercel.app';
+                                       ▲                              ▲
+                                       │                              │
+                                    COMEÇAR                         TERMINAR
+                                    SELEÇÃO                         SELEÇÃO
+                                    (depois do ')                  (antes do ')
+
+
+PASSO 2: COLAR (Ctrl+V)
+──────────────────────────────────────────────────────────────────────────
+
+    export const VERCEL_PROJECT_URL = 'https://nopico-surf-xyz123.vercel.app';
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                       URL NOVA JÁ COLADA!
+
+
+═══════════════════════════════════════════════════════════════════════════
+✅ CHECKLIST VISUAL
+═══════════════════════════════════════════════════════════════════════════
+
+☐ 1. Abrir arquivo: /services/vercelConfig.ts
+     
+☐ 2. Ir na linha 35
+     
+☐ 3. Olhar para:
+     export const VERCEL_PROJECT_URL = 'https://nopicosurf.vercel.app';
+     
+☐ 4. Clicar 3x na URL (entre aspas) para selecionar tudo
+     
+☐ 5. Colar (Ctrl+V) a URL que o Vercel te deu
+     
+☐ 6. Verificar se ficou assim:
+     export const VERCEL_PROJECT_URL = 'https://SUA-URL-AQUI.vercel.app';
+     
+☐ 7. Salvar (Ctrl+S)
+     
+☐ 8. Push (botão "Publish to GitHub")
+
+
+═══════════════════════════════════════════════════════════════════════════
+🚨 IMPORTANTE
+═══════════════════════════════════════════════════════════════════════════
+
+❌ NÃO ESQUECER AS ASPAS:
+   export const VERCEL_PROJECT_URL = https://sua-url.vercel.app;  ← ERRADO!
+   export const VERCEL_PROJECT_URL = 'https://sua-url.vercel.app'; ← CERTO!
+                                      ▲                            ▲
+                                      PRECISA TER ASPAS
+
+❌ NÃO ESQUECER O https://
+   export const VERCEL_PROJECT_URL = 'nopico-surf-xyz123.vercel.app'; ← ERRADO!
+   export const VERCEL_PROJECT_URL = 'https://nopico-surf-xyz123.vercel.app'; ← CERTO!
+                                      ^^^^^^^^
+
+❌ NÃO DEIXAR ESPAÇOS:
+   export const VERCEL_PROJECT_URL = ' https://sua-url.vercel.app '; ← ERRADO!
+   export const VERCEL_PROJECT_URL = 'https://sua-url.vercel.app'; ← CERTO!
+                                      ▲                          ▲
+                                      SEM ESPAÇO              SEM ESPAÇO
+
+
+═══════════════════════════════════════════════════════════════════════════
+🎉 EXEMPLO FINAL CORRETO
+═══════════════════════════════════════════════════════════════════════════
+
+LINHA 35:
+
+✅ CERTO:
+export const VERCEL_PROJECT_URL = 'https://nopico-surf-abc123.vercel.app';
+
+❌ ERRADO (sem aspas):
+export const VERCEL_PROJECT_URL = https://nopico-surf-abc123.vercel.app;
+
+❌ ERRADO (sem https://):
+export const VERCEL_PROJECT_URL = 'nopico-surf-abc123.vercel.app';
+
+❌ ERRADO (com espaços):
+export const VERCEL_PROJECT_URL = ' https://nopico-surf-abc123.vercel.app ';
+
+❌ ERRADO (URL antiga):
+export const VERCEL_PROJECT_URL = 'https://nopicosurf.vercel.app';
+
+
+═══════════════════════════════════════════════════════════════════════════
+💡 DICA RÁPIDA
+═══════════════════════════════════════════════════════════════════════════
+
+Quer copiar rápido? Use o método "triplo clique":
+
+1. Clicar 3x em cima da URL antiga
+2. A URL inteira vai selecionar automaticamente
+3. Colar (Ctrl+V) a URL nova
+4. ✅ Pronto!
+
+
+═══════════════════════════════════════════════════════════════════════════
+🏄‍♂️ FICOU CLARO?
+═══════════════════════════════════════════════════════════════════════════
+
+Se ainda tiver dúvida, me envie:
+- A URL que o Vercel te deu
+- Screenshot da linha 35
+
+E eu te mostro exatamente como deve ficar! 🎯
+
+═══════════════════════════════════════════════════════════════════════════

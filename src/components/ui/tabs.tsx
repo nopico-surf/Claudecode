@@ -1,0 +1,95 @@
+"use client";
+
+import * as React from "react";
+import * as TabsPrimitive from "@radix-ui/react-tabs";
+import { cn } from "./utils";
+
+console.log('🔵🔵🔵 TABS.TSX CARREGADO! 🔵🔵🔵');
+
+const Tabs = TabsPrimitive.Root;
+
+const TabsList = React.forwardRef<
+  React.ElementRef<typeof TabsPrimitive.List>,
+  React.ComponentPropsWithoutRef<typeof TabsPrimitive.List>
+>(({ className, ...props }, ref) => (
+  <TabsPrimitive.List
+    ref={ref}
+    className={cn(
+      "inline-flex h-12 items-center justify-center gap-2",
+      className
+    )}
+    {...props}
+  />
+));
+TabsList.displayName = TabsPrimitive.List.displayName;
+
+const TabsTrigger = React.forwardRef<
+  React.ElementRef<typeof TabsPrimitive.Trigger>,
+  React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>
+>(({ className, style, ...props }, ref) => {
+  const internalRef = React.useRef<HTMLButtonElement>(null);
+  const combinedRef = ref || internalRef;
+
+  React.useEffect(() => {
+    const button = internalRef.current;
+    if (!button) return;
+
+    const applyStyles = () => {
+      const state = button.getAttribute('data-state');
+      console.log('🎨 Aplicando estilo. State:', state, 'Value:', props.value);
+      
+      if (state === 'active') {
+        button.style.setProperty('background-color', '#001f3d', 'important');
+        button.style.setProperty('color', '#ffc72c', 'important');
+        button.style.setProperty('border', 'none', 'important');
+        button.style.setProperty('font-weight', '600', 'important');
+        button.style.setProperty('box-shadow', 'none', 'important');
+      } else {
+        button.style.setProperty('background-color', '#6b7280', 'important');
+        button.style.setProperty('color', '#ffffff', 'important');
+        button.style.setProperty('border', 'none', 'important');
+        button.style.setProperty('font-weight', '500', 'important');
+      }
+    };
+
+    // Aplica imediatamente
+    applyStyles();
+
+    // Observa mudanças
+    const observer = new MutationObserver(applyStyles);
+    observer.observe(button, { attributes: true, attributeFilter: ['data-state'] });
+
+    return () => observer.disconnect();
+  }, [props.value]);
+
+  return (
+    <TabsPrimitive.Trigger
+      ref={internalRef}
+      className={cn(
+        "inline-flex items-center justify-center whitespace-nowrap rounded-full px-4 py-2.5 transition-all min-h-[44px]",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
+        "disabled:pointer-events-none disabled:opacity-50",
+        className
+      )}
+      {...props}
+    />
+  );
+});
+TabsTrigger.displayName = TabsPrimitive.Trigger.displayName;
+
+const TabsContent = React.forwardRef<
+  React.ElementRef<typeof TabsPrimitive.Content>,
+  React.ComponentPropsWithoutRef<typeof TabsPrimitive.Content>
+>(({ className, ...props }, ref) => (
+  <TabsPrimitive.Content
+    ref={ref}
+    className={cn(
+      "mt-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+      className
+    )}
+    {...props}
+  />
+));
+TabsContent.displayName = TabsPrimitive.Content.displayName;
+
+export { Tabs, TabsList, TabsTrigger, TabsContent };

@@ -1,0 +1,48 @@
+═══════════════════════════════════════════════════════════════════════════
+🎯 URL CORRETA PARA TESTAR
+═══════════════════════════════════════════════════════════════════════════
+
+❌ ERRADO (404 esperado):
+https://nopicosurf.vercel.app/
+https://nopicosurf.vercel.app
+         ↑
+    Sem /api/pnboia/...
+
+
+✅ CORRETO (deve retornar JSON):
+https://nopicosurf.vercel.app/api/pnboia/pnboia-florianopolis
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                             PRECISA TER O CAMINHO COMPLETO
+
+
+═══════════════════════════════════════════════════════════════════════════
+📋 COPIAR E COLAR NO NAVEGADOR:
+═══════════════════════════════════════════════════════════════════════════
+
+https://nopicosurf.vercel.app/api/pnboia/pnboia-florianopolis
+
+
+═══════════════════════════════════════════════════════════════════════════
+📊 RESULTADO ESPERADO:
+═══════════════════════════════════════════════════════════════════════════
+
+SE FUNCIONAR:
+{
+  "success": true,
+  "data": {
+    "timestamp": "2025-11-15T...",
+    "waveHeight": 1.5,
+    "wavePeriod": 8.2,
+    ...
+  },
+  "source": "api"
+}
+
+
+SE NÃO FUNCIONAR (pasta /api não foi para Vercel):
+404 NOT FOUND
+ou
+{"error": "..."}
+
+
+═══════════════════════════════════════════════════════════════════════════

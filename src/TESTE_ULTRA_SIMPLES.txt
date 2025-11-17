@@ -1,0 +1,43 @@
+// ═══════════════════════════════════════════════════════════════════════════
+// TESTE ULTRA SIMPLES - COPIE E COLE NO CONSOLE
+// ═══════════════════════════════════════════════════════════════════════════
+
+console.clear();
+console.log("INICIANDO TESTE PNBOIA...");
+
+fetch("https://rqgubpqniscyoojkwltn.supabase.co/functions/v1/make-server-2d5da22b/pnboia/data", {
+  headers: {"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJxZ3VicHFuaXNjeW9vamt3bHRuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAzNzQxOTIsImV4cCI6MjA3NTk1MDE5Mn0.hQkPC_Z9RBEwlGHZBpWw6hMIVxfre2UVOKRhVOvsJ9o"}
+})
+.then(r => r.json())
+.then(data => {
+  console.log("DADOS RECEBIDOS:", data);
+  
+  const reais = data.buoys.filter(b => b.isMockData === false).length;
+  const mocks = data.buoys.filter(b => b.isMockData === true).length;
+  
+  console.log(" ");
+  console.log("BOIAS COM DADOS REAIS:", reais);
+  console.log("BOIAS COM DADOS MOCK:", mocks);
+  console.log(" ");
+  
+  if (mocks > 0) {
+    console.log("FORCANDO SYNC MANUAL...");
+    
+    fetch("https://rqgubpqniscyoojkwltn.supabase.co/functions/v1/make-server-2d5da22b/pnboia/sync-all", {
+      method: "POST",
+      headers: {"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJxZ3VicHFuaXNjeW9vamt3bHRuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAzNzQxOTIsImV4cCI6MjA3NTk1MDE5Mn0.hQkPC_Z9RBEwlGHZBpWw6hMIVxfre2UVOKRhVOvsJ9o"}
+    })
+    .then(r => r.json())
+    .then(result => {
+      console.log(" ");
+      console.log("SYNC COMPLETO:", result);
+      console.log(" ");
+      
+      if (result.buoys) {
+        const realSynced = result.buoys.filter(b => b.source !== "mock").length;
+        console.log("BOIAS SINCRONIZADAS COM DADOS REAIS:", realSynced);
+        console.log("BOIAS COM FALLBACK MOCK:", result.buoys.length - realSynced);
+      }
+    });
+  }
+});

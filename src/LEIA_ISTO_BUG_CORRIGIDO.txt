@@ -1,0 +1,61 @@
+════════════════════════════════════════════════════════════════
+🐛 BUG CALIBRAÇÃO CORRIGIDO - RESUMO RÁPIDO
+════════════════════════════════════════════════════════════════
+
+✅ VOCÊ ESTAVA 100% CERTO!
+
+Tinha 2 bugs graves:
+1. Calibração aplicada mesmo dizendo "NÃO" ❌
+2. Sistema não respeitava sua escolha ❌
+
+════════════════════════════════════════════════════════════════
+✅ O QUE FOI CORRIGIDO:
+════════════════════════════════════════════════════════════════
+
+1. Agora pergunta ANTES de salvar
+2. Salva com flag: calibrationEnabled = true/false
+3. Sistema só usa observações com calibrationEnabled = true
+
+════════════════════════════════════════════════════════════════
+🧪 TESTAR AGORA:
+════════════════════════════════════════════════════════════════
+
+1. Limpar dados antigos (opcional):
+   localStorage.clear() no console
+
+2. Cadastrar nova observação:
+   - Admin → Registrar Observação
+   - Quando perguntar "Ativar calibração?"
+   
+   TESTE 1: Clique "CANCELAR"
+   → Site NÃO deve mudar ✅
+   
+   TESTE 2: Cadastre outra e clique "OK"
+   → Site DEVE mudar ✅
+
+════════════════════════════════════════════════════════════════
+📊 LOGS ESPERADOS:
+════════════════════════════════════════════════════════════════
+
+SE DISSER "NÃO":
+⚠️ [CALIBRAÇÃO] Usuário optou por NÃO ativar ajuste
+🔧 Calibração ativada: false
+⚠️ Nenhuma observação com calibração ativada
+
+SE DISSER "SIM":
+✅ [CALIBRAÇÃO] Ajuste automático ATIVADO
+🔧 Calibração ativada: true
+✅ Calibração ativada! Site ajustará usando fator...
+
+════════════════════════════════════════════════════════════════
+📝 ARQUIVOS MODIFICADOS:
+════════════════════════════════════════════════════════════════
+
+✅ /components/admin/ObservationForm.tsx
+✅ /services/calibration/liveAdjustments.ts
+
+════════════════════════════════════════════════════════════════
+
+🎯 AGORA FUNCIONA COMO DEVERIA DESDE O INÍCIO!
+
+Teste e me avise se ainda houver problemas.

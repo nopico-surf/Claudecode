@@ -1,0 +1,141 @@
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║          🎉 PARA VOCÊ (USUÁRIO DO FIGMA MAKE) 🎉             ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+
+
+😅 DESCULPA A CONFUSÃO! Eu pensei que você tinha Git instalado.
+
+✅ MAS AGORA ENTENDI: Você usa FIGMA MAKE (web)!
+
+
+═══════════════════════════════════════════════════════════════
+          ❌ IGNORE TODOS OS ARQUIVOS SOBRE "TERMINAL"
+═══════════════════════════════════════════════════════════════
+
+Você NÃO precisa:
+   ❌ Abrir Terminal
+   ❌ Instalar Git
+   ❌ Fazer git push
+   ❌ Executar comandos
+   ❌ Baixar nada no computador
+
+
+═══════════════════════════════════════════════════════════════
+               ✅ FIGMA MAKE JÁ FEZ TUDO POR VOCÊ
+═══════════════════════════════════════════════════════════════
+
+Quando você editou o arquivo no Figma Make, ele JÁ:
+   ✅ Salvou o arquivo
+   ✅ Fez git commit
+   ✅ Fez git push para GitHub
+   ✅ Fez deploy
+
+
+═══════════════════════════════════════════════════════════════
+                🎯 VOCÊ SÓ PRECISA FAZER ISTO:
+═══════════════════════════════════════════════════════════════
+
+         ADICIONAR 2 SECRETS NO GITHUB.COM
+
+
+═══════════════════════════════════════════════════════════════
+                         COMO FAZER:
+═══════════════════════════════════════════════════════════════
+
+1️⃣  Abrir navegador (Chrome/Firefox/Safari)
+
+2️⃣  Ir para GitHub.com (fazer login se necessário)
+
+3️⃣  Ir para seu repositório
+
+4️⃣  Clicar em "Settings" (⚙️ no menu superior)
+
+5️⃣  Menu lateral → "Secrets and variables" → "Actions"
+
+6️⃣  Clicar "New repository secret" (botão verde)
+
+7️⃣  Adicionar SECRET #1:
+    Nome:  SUPABASE_PROJECT_ID
+    Valor: rqgubpqniscyoojkwltn
+    
+    Clicar "Add secret"
+
+8️⃣  Clicar "New repository secret" (novamente)
+
+9️⃣  Adicionar SECRET #2:
+    Nome:  SUPABASE_ANON_KEY
+    Valor: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJxZ3VicHFuaXNjeW9vamt3bHRuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAzNzQxOTIsImV4cCI6MjA3NTk1MDE5Mn0.hQkPC_Z9RBEwlGHZBpWw6hMIVxfre2UVOKRhVOvsJ9o
+    
+    Clicar "Add secret"
+
+🎉 PRONTO! Sistema funcionando 24/7!
+
+
+═══════════════════════════════════════════════════════════════
+                    RESPONDENDO SUAS DÚVIDAS:
+═══════════════════════════════════════════════════════════════
+
+❓ "Que terminal é esse?"
+   → NENHUM! Você NÃO precisa de Terminal.
+   → Figma Make faz tudo automaticamente.
+
+❓ "Meu computador vai virar servidor?"
+   → NÃO! Tudo fica na nuvem (GitHub, Vercel, Supabase).
+   → Seu computador só acessa através do navegador.
+
+❓ "Não tenho nada baixado"
+   → PERFEITO! É assim que deve ser com Figma Make!
+
+
+═══════════════════════════════════════════════════════════════
+                      ONDE AS COISAS FICAM:
+═══════════════════════════════════════════════════════════════
+
+🖥️  SEU COMPUTADOR:
+   • Navegador (só para acessar)
+   • NÃO hospeda nada
+   • NÃO executa nada
+
+☁️  NUVEM (tudo aqui):
+   • Figma Make → Editor online
+   • GitHub → Código armazenado
+   • Vercel → Site rodando
+   • Supabase → Backend + Banco
+   • GitHub Actions → Robô automático
+
+
+═══════════════════════════════════════════════════════════════
+                        ⏱️  TEMPO TOTAL:
+═══════════════════════════════════════════════════════════════
+
+   5 MINUTOS (só adicionar 2 secrets no GitHub.com)
+
+
+═══════════════════════════════════════════════════════════════
+                    📚 QUER ENTENDER MAIS?
+═══════════════════════════════════════════════════════════════
+
+Ler estes arquivos (NA ORDEM):
+
+1. ENTENDA_FIGMA_MAKE_VS_COMPUTADOR_LOCAL.md  ← Explicação completa
+2. FIGMA_MAKE_USUARIOS_LEIA_AQUI.md           ← Guia passo-a-passo
+3. APENAS_ISTO_GITHUB_SECRETS.txt             ← Instruções resumidas
+
+
+═══════════════════════════════════════════════════════════════
+                        🎯 PRÓXIMO PASSO:
+═══════════════════════════════════════════════════════════════
+
+   Ir para GitHub.com e adicionar os 2 secrets!
+
+   URL direta:
+   https://github.com/SEU_USUARIO/SEU_REPO/settings/secrets/actions
+
+
+═══════════════════════════════════════════════════════════════
+
+🎉 Depois disso, sistema roda sozinho 24/7! 🎉
+
+═══════════════════════════════════════════════════════════════

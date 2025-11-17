@@ -1,0 +1,120 @@
+═══════════════════════════════════════════════════════════════════════════
+✅ JÁ FIZ QUASE TUDO POR VOCÊ!
+═══════════════════════════════════════════════════════════════════════════
+
+O QUE EU JÁ FIZ:
+   ✅ Criei pasta .github/workflows
+   ✅ Criei arquivo pnboia-sync.yml no lugar certo
+   ✅ Removi arquivo da pasta errada
+   ✅ Tudo pronto para git push!
+
+═══════════════════════════════════════════════════════════════════════════
+⚡ VOCÊ SÓ PRECISA FAZER 2 COISAS (5 MINUTOS):
+═══════════════════════════════════════════════════════════════════════════
+
+┌───────────────────────────────────────────────────────────────────────┐
+│ 1️⃣  COPIAR E COLAR NO TERMINAL (3 comandos, 1 de cada vez)           │
+└───────────────────────────────────────────────────────────────────────┘
+
+ABRIR:
+   • Mac/Linux: App "Terminal"
+   • Windows: App "Git Bash"
+   • Ir na pasta do projeto primeiro!
+
+───────────────────────────────────────────────────────────────────────────
+
+COMANDO 1 (adicionar arquivo):
+
+git add .github/workflows/pnboia-sync.yml
+
+───────────────────────────────────────────────────────────────────────────
+
+COMANDO 2 (fazer commit):
+
+git commit -m "feat: Add GitHub Actions PNBOIA auto-sync (every 3h)"
+
+───────────────────────────────────────────────────────────────────────────
+
+COMANDO 3 (enviar para GitHub):
+
+git push
+
+───────────────────────────────────────────────────────────────────────────
+
+✅ SE DEU CERTO:
+   Você vai ver mensagens tipo:
+   "Enumerating objects..."
+   "Writing objects..."
+   "To github.com:..."
+
+❌ SE DER ERRO:
+   "fatal: not a git repository"
+   → Você não está na pasta do projeto
+   → Use: cd caminho/para/projeto
+
+───────────────────────────────────────────────────────────────────────────
+
+┌───────────────────────────────────────────────────────────────────────┐
+│ 2️⃣  ADICIONAR SECRETS NO GITHUB.COM (5 minutos)                      │
+└───────────────────────────────────────────────────────────────────────┘
+
+PASSO 1: Ir para GitHub.com
+   https://github.com/SEU_USUARIO/SEU_REPOSITORIO
+
+PASSO 2: Clicar em "Settings" (⚙️ no menu superior)
+
+PASSO 3: Menu lateral esquerdo → "Secrets and variables" → "Actions"
+
+PASSO 4: Clicar botão verde "New repository secret"
+
+PASSO 5: Adicionar SECRET #1:
+   Nome:  SUPABASE_PROJECT_ID
+   Valor: rqgubpqniscyoojkwltn
+   
+   Clicar "Add secret"
+
+PASSO 6: Clicar novamente "New repository secret"
+
+PASSO 7: Adicionar SECRET #2:
+   Nome:  SUPABASE_ANON_KEY
+   Valor: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJxZ3VicHFuaXNjeW9vamt3bHRuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAzNzQxOTIsImV4cCI6MjA3NTk1MDE5Mn0.hQkPC_Z9RBEwlGHZBpWw6hMIVxfre2UVOKRhVOvsJ9o
+   
+   Clicar "Add secret"
+
+───────────────────────────────────────────────────────────────────────────
+
+✅ RESULTADO FINAL:
+   Você vai ver na página:
+   
+   Actions secrets
+   ✅ SUPABASE_PROJECT_ID     Updated now
+   ✅ SUPABASE_ANON_KEY       Updated now
+
+═══════════════════════════════════════════════════════════════════════════
+🎯 TESTAR (OPCIONAL - MAS RECOMENDADO)
+═══════════════════════════════════════════════════════════════════════════
+
+GitHub.com → Actions → "PNBOIA Auto Sync" → "Run workflow"
+
+Aguardar ~1 minuto e ver logs mostrando:
+   ✅ Sincronização concluída com sucesso!
+   📊 Resultado: 14/14 boias sincronizadas
+
+═══════════════════════════════════════════════════════════════════════════
+🎉 PRONTO! DEPOIS DISSO:
+═══════════════════════════════════════════════════════════════════════════
+
+✅ Sistema vai rodar SOZINHO a cada 3 horas (24/7)
+✅ Você não precisa fazer mais NADA
+✅ Dados sempre atualizados
+✅ Independente de usuários visitando o site
+
+═══════════════════════════════════════════════════════════════════════════
+📚 CASO TENHA DÚVIDAS:
+═══════════════════════════════════════════════════════════════════════════
+
+Ler arquivos na ordem:
+   1. EXPLICACAO_VISUAL_COMPLETA.md  (entender o conceito)
+   2. PASSO_A_PASSO_GITHUB_VISUAL.md (guia completo visual)
+
+═══════════════════════════════════════════════════════════════════════════

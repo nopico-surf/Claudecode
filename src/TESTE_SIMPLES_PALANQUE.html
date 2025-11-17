@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste Palanque - Open-Meteo</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #007bff;
+            padding-bottom: 10px;
+        }
+        .section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .loading {
+            color: #666;
+            font-style: italic;
+        }
+        .success {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .error {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 12px;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .info {
+            background: #e7f3ff;
+            padding: 15px;
+            border-left: 4px solid #007bff;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>🏄 Teste Direto - Palanque (Campeche)</h1>
+    
+    <div class="info">
+        <strong>📍 Pico:</strong> Palanque<br>
+        <strong>🌊 ID:</strong> sc-floripa-campeche-4<br>
+        <strong>📍 Coordenadas:</strong> -27.6800, -48.4750<br>
+        <strong>🧭 Orientação:</strong> 160° (Sul-Sudeste)
+    </div>
+    
+    <button onclick="testarAPI()">▶️ Testar API Open-Meteo</button>
+    
+    <div class="section">
+        <h2>📊 Resultado do Teste</h2>
+        <div id="resultado" class="loading">Aguardando teste...</div>
+    </div>
+    
+    <div class="section">
+        <h2>📦 Dados Brutos (JSON)</h2>
+        <pre id="dadosJson">-</pre>
+    </div>
+    
+    <div class="section">
+        <h2>🌊 Primeiras 3 Horas</h2>
+        <pre id="primeirasHoras">-</pre>
+    </div>
+
+    <script>
+        async function testarAPI() {
+            const resultado = document.getElementById('resultado');
+            const dadosJson = document.getElementById('dadosJson');
+            const primeirasHoras = document.getElementById('primeirasHoras');
+            
+            resultado.innerHTML = '<span class="loading">⏳ Testando API Open-Meteo...</span>';
+            dadosJson.textContent = '-';
+            primeirasHoras.textContent = '-';
+            
+            try {
+                const lat = -27.6800;
+                const lon = -48.4750;
+                
+                const url = `https://marine-api.open-meteo.com/v1/marine?` +
+                    `latitude=${lat}&` +
+                    `longitude=${lon}&` +
+                    `hourly=wave_height,wave_direction,wave_period,swell_wave_height,swell_wave_direction,swell_wave_period,wind_wave_height,wind_wave_direction,wind_wave_period,wind_speed_10m,wind_direction_10m&` +
+                    `daily=wave_height_max,wave_direction_dominant,wave_period_max&` +
+                    `timezone=America/Sao_Paulo&` +
+                    `forecast_days=7`;
+                
+                console.log('🌐 URL:', url);
+                
+                const response = await fetch(url);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                
+                // SUCESSO!
+                resultado.innerHTML = `
+                    <span class="success">✅ API FUNCIONANDO PERFEITAMENTE!</span><br><br>
+                    <strong>📡 Status:</strong> ${response.status} OK<br>
+                    <strong>🌊 Ondas detectadas:</strong> ${data.hourly.wave_height.filter(h => h > 0).length} de ${data.hourly.wave_height.length} horas<br>
+                    <strong>📅 Dias de previsão:</strong> ${data.daily.wave_height_max.length}<br>
+                    <strong>🕐 Primeira leitura:</strong> ${data.hourly.time[0]}
+                `;
+                
+                // Mostrar JSON completo (limitado)
+                dadosJson.textContent = JSON.stringify(data, null, 2).substring(0, 2000) + '\n\n... (truncado)';
+                
+                // Mostrar primeiras 3 horas
+                let horasTexto = '';
+                for (let i = 0; i < Math.min(3, data.hourly.time.length); i++) {
+                    horasTexto += `\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+                    horasTexto += `⏰ ${data.hourly.time[i]}\n`;
+                    horasTexto += `\n🌊 ONDAS:\n`;
+                    horasTexto += `   Total: ${data.hourly.wave_height[i] || 0}m\n`;
+                    horasTexto += `   Swell: ${data.hourly.swell_wave_height[i] || 0}m @ ${data.hourly.swell_wave_direction[i] || 0}° (T=${data.hourly.swell_wave_period[i] || 0}s)\n`;
+                    horasTexto += `   Wind Waves: ${data.hourly.wind_wave_height[i] || 0}m\n`;
+                    horasTexto += `\n💨 VENTO:\n`;
+                    horasTexto += `   Velocidade: ${data.hourly.wind_speed_10m[i] || 0} m/s (${((data.hourly.wind_speed_10m[i] || 0) * 3.6).toFixed(1)} km/h)\n`;
+                    horasTexto += `   Direção: ${data.hourly.wind_direction_10m[i] || 0}°\n`;
+                }
+                
+                primeirasHoras.textContent = horasTexto;
+                
+                console.log('✅ Teste concluído com sucesso!', data);
+                
+            } catch (error) {
+                resultado.innerHTML = `
+                    <span class="error">❌ ERRO AO TESTAR API!</span><br><br>
+                    <strong>Tipo:</strong> ${error.name}<br>
+                    <strong>Mensagem:</strong> ${error.message}<br><br>
+                    <strong>Possíveis causas:</strong><br>
+                    • Sem conexão com internet<br>
+                    • API Open-Meteo offline (improvável)<br>
+                    • CORS bloqueado (improvável - API pública)<br>
+                    • Coordenadas inválidas
+                `;
+                
+                console.error('❌ Erro:', error);
+            }
+        }
+        
+        // Executar automaticamente ao carregar
+        window.addEventListener('load', () => {
+            console.log('🚀 Página carregada. Clique no botão para testar.');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,223 @@
+═══════════════════════════════════════════════════════════════════════════
+🎯 EXEMPLO PRÁTICO: MUDAR URL DO VERCEL
+═══════════════════════════════════════════════════════════════════════════
+
+CENÁRIO:
+Você acabou de fazer deploy no Vercel e recebeu esta URL:
+https://nopico-surf-xyz123.vercel.app
+
+
+═══════════════════════════════════════════════════════════════════════════
+📍 PASSO A PASSO (COM EXEMPLO REAL)
+═══════════════════════════════════════════════════════════════════════════
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│ PASSO 1: COPIAR A URL DO VERCEL                                        │
+└─────────────────────────────────────────────────────────────────────────┘
+
+Você vê esta tela no Vercel:
+
+    ┌───────────────────────────────────────────────────────┐
+    │  ✅ Deployment Successful                            │
+    │                                                       │
+    │  Your deployment is now live at:                     │
+    │                                                       │
+    │  🔗 https://nopico-surf-xyz123.vercel.app            │
+    │     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^         │
+    │     SELECIONAR E COPIAR ESTA LINHA TODA              │
+    │                                                       │
+    │  [Visit] [Inspect] [Assign Domain]                   │
+    └───────────────────────────────────────────────────────┘
+
+VOCÊ FAZ:
+1. Clica 3x em cima da URL (seleciona tudo)
+2. Ctrl+C (ou Cmd+C no Mac)
+3. ✅ URL copiada: https://nopico-surf-xyz123.vercel.app
+
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│ PASSO 2: ABRIR O ARQUIVO NO FIGMA MAKE                                 │
+└─────────────────────────────────────────────────────────────────────────┘
+
+No Figma Make:
+
+    Files
+    └── services
+        └── vercelConfig.ts  ← CLICAR NESTE ARQUIVO
+
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│ PASSO 3: ACHAR A LINHA 38                                               │
+└─────────────────────────────────────────────────────────────────────────┘
+
+Você vai ver este código:
+
+    33: /**
+    34:  * URL base do Vercel (MUDAR DEPOIS DO DEPLOY!)
+    35:  * 
+    36:  * ANTES DO DEPLOY:
+    37:  * - Deixar como 'https://nopicosurf.vercel.app' (atual)
+    38:  * 
+    39:  * DEPOIS DO DEPLOY:
+    40:  * - Trocar pela URL do seu projeto Vercel
+    41:  * - Exemplo: 'https://nopico-surf-abc123.vercel.app'
+    42:  */
+→   43: export const VERCEL_PROJECT_URL = 'https://nopicosurf.vercel.app';
+    ^^                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ESTA LINHA                             ESTA PARTE VAI MUDAR
+
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│ PASSO 4: SELECIONAR A URL ANTIGA                                       │
+└─────────────────────────────────────────────────────────────────────────┘
+
+Na linha 43, você vai selecionar só a parte entre aspas:
+
+    export const VERCEL_PROJECT_URL = 'https://nopicosurf.vercel.app';
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                       SELECIONAR ESTA PARTE
+                                       (incluindo o https://)
+
+Como selecionar:
+1. Clicar depois do ' (primeira aspa)
+2. Arrastar até antes do ' (última aspa)
+3. OU: Duplo clique na URL
+
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│ PASSO 5: COLAR A URL NOVA                                               │
+└─────────────────────────────────────────────────────────────────────────┘
+
+Com a URL antiga selecionada, COLAR (Ctrl+V ou Cmd+V):
+
+ANTES:
+    export const VERCEL_PROJECT_URL = 'https://nopicosurf.vercel.app';
+
+DEPOIS:
+    export const VERCEL_PROJECT_URL = 'https://nopico-surf-xyz123.vercel.app';
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                       URL NOVA COLADA
+
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│ PASSO 6: SALVAR                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
+
+Apertar Ctrl+S (ou Cmd+S no Mac)
+
+Você vai ver um indicador mostrando que o arquivo foi salvo ✅
+
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│ PASSO 7: PUBLICAR NO GITHUB                                             │
+└─────────────────────────────────────────────────────────────────────────┘
+
+No Figma Make:
+
+1. Clicar no botão "Publish to GitHub" (canto superior direito)
+2. Adicionar mensagem: "chore: Atualizar URL do Vercel"
+3. Clicar "Publish"
+
+Aguardar... (30 segundos - 1 minuto)
+
+✅ Publicado!
+
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│ PASSO 8: VERCEL FAZ REDEPLOY AUTOMÁTICO                                │
+└─────────────────────────────────────────────────────────────────────────┘
+
+O Vercel detecta o push no GitHub e faz redeploy automático:
+
+    Vercel Dashboard:
+    
+    Building... ⏳
+    ↓
+    Deploying... 🚀
+    ↓
+    ✅ Deployed (1-2 minutos depois)
+
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│ PASSO 9: TESTAR                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
+
+Abrir no navegador:
+
+    https://nopico-surf-xyz123.vercel.app/api/pnboia/pnboia-florianopolis
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+           SUA URL
+
+Você deve ver:
+
+    {
+      "success": true,
+      "data": {
+        "waveHeight": 1.5,
+        "wavePeriod": 8.2,
+        ...
+      },
+      "source": "api"
+    }
+
+✅ FUNCIONOU!
+
+
+═══════════════════════════════════════════════════════════════════════════
+🎯 RESUMO DO EXEMPLO
+═══════════════════════════════════════════════════════════════════════════
+
+VOCÊ RECEBEU DO VERCEL:
+    https://nopico-surf-xyz123.vercel.app
+
+VOCÊ MUDOU NO CÓDIGO (linha 38):
+    ANTES: 'https://nopicosurf.vercel.app'
+    DEPOIS: 'https://nopico-surf-xyz123.vercel.app'
+
+FEZ PUSH:
+    GitHub → Vercel → Redeploy
+
+TESTOU:
+    https://nopico-surf-xyz123.vercel.app/api/pnboia/pnboia-florianopolis
+    ✅ Retornou JSON
+
+
+═══════════════════════════════════════════════════════════════════════════
+❓ E SE EU USAR UM DOMÍNIO CUSTOMIZADO?
+═══════════════════════════════════════════════════════════════════════════
+
+Se você configurar um domínio tipo: api.nopico.com.br
+
+ENTÃO você muda para:
+
+    export const VERCEL_PROJECT_URL = 'https://api.nopico.com.br';
+
+Mas INICIALMENTE, use a URL que o Vercel gerar automaticamente.
+
+
+═══════════════════════════════════════════════════════════════════════════
+❓ POSSO TESTAR ANTES DE MUDAR A URL?
+═══════════════════════════════════════════════════════════════════════════
+
+SIM! Você pode testar se o deploy funcionou ANTES de mudar o código:
+
+1. Copiar URL do Vercel: https://nopico-surf-xyz123.vercel.app
+2. Adicionar /api/pnboia/pnboia-florianopolis no final
+3. Abrir no navegador: https://nopico-surf-xyz123.vercel.app/api/pnboia/pnboia-florianopolis
+4. Ver JSON de resposta
+
+Se ver JSON = Deploy funcionou! ✅
+Agora sim pode atualizar o vercelConfig.ts
+
+
+═══════════════════════════════════════════════════════════════════════════
+🎉 PRONTO!
+═══════════════════════════════════════════════════════════════════════════
+
+Agora você sabe EXATAMENTE:
+✅ O que é a URL do Vercel
+✅ Onde ela aparece
+✅ Onde colar no código
+✅ Como testar se funcionou
+
+═══════════════════════════════════════════════════════════════════════════

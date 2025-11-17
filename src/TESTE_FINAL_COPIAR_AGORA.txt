@@ -1,0 +1,132 @@
+═══════════════════════════════════════════════════════════════════════════
+🧪 TESTE FINAL - SISTEMA VERSÃO 1.2.1
+═══════════════════════════════════════════════════════════════════════════
+
+INSTRUÇÕES:
+1. Aguarde 90 segundos (deploy do Edge Function)
+2. Abra console do navegador (F12)
+3. Cole o código abaixo
+4. Pressione ENTER
+5. Me envie print do resultado
+
+═══════════════════════════════════════════════════════════════════════════
+
+const B='https://rqgubpqniscyoojkwltn.supabase.co/functions/v1/make-server-2d5da22b';
+const T='Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJxZ3VicHFuaXNjeW9vamt3bHRuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAzNzQxOTIsImV4cCI6MjA3NTk1MDE5Mn0.hQkPC_Z9RBEwlGHZBpWw6hMIVxfre2UVOKRhVOvsJ9o';
+
+console.clear();
+console.log('═══════════════════════════════════════════════════════════════════════════');
+console.log('🧪 TESTE FINAL - SISTEMA v1.2.1');
+console.log('═══════════════════════════════════════════════════════════════════════════\n');
+
+// Teste 1: Endpoint raiz (novo)
+console.log('🔍 TESTE 1: Endpoint raiz /pnboia\n');
+fetch(B+'/pnboia',{headers:{Authorization:T}})
+.then(r=>{
+  console.log('   HTTP',r.status,r.ok?'✅':'❌');
+  if(!r.ok){console.log('   ⚠️ Deploy ainda não chegou. Aguarde mais 1min.\n');throw new Error('404');}
+  return r.json();
+})
+.then(d=>{
+  console.log('   Versão:',d.version);
+  console.log('   Endpoints:',d.endpoints.length,'\n');
+  
+  // Teste 2: Status das boias
+  console.log('🔍 TESTE 2: Status das boias /pnboia/status\n');
+  return fetch(B+'/pnboia/status',{headers:{Authorization:T}});
+})
+.then(r=>{
+  console.log('   HTTP',r.status,r.ok?'✅':'❌');
+  if(!r.ok)throw new Error('Status 404');
+  return r.json();
+})
+.then(d=>{
+  console.log('   Boias ativas:',d.active+'/'+d.total);
+  console.log('   Última sync:',d.lastGlobalSync||'NUNCA');
+  
+  if(d.active===0){
+    console.log('   ⚠️ Sem dados. Iniciando sync...\n');
+    return fetch(B+'/pnboia/sync-all',{method:'POST',headers:{Authorization:T}});
+  }
+  return null;
+})
+.then(r=>{
+  if(r){
+    console.log('🔍 TESTE 3: Sincronização manual\n');
+    console.log('   HTTP',r.status,r.ok?'✅':'❌');
+    return r.json();
+  }
+  return null;
+})
+.then(d=>{
+  if(d){
+    console.log('   Sync iniciada. Boias:',d.total);
+    console.log('   Sucesso:',d.success);
+    console.log('   Falhas:',d.failed);
+    console.log('\n   ⏳ Aguarde 30s e recarregue a página.\n');
+  }else{
+    console.log('\n   ✅ Sistema já tem dados!\n');
+  }
+  
+  // Teste 4: Dados formatados
+  console.log('🔍 TESTE 4: Dados formatados /pnboia/data\n');
+  return fetch(B+'/pnboia/data',{headers:{Authorization:T}});
+})
+.then(r=>{
+  console.log('   HTTP',r.status,r.ok?'✅':'❌');
+  if(!r.ok)return null;
+  return r.json();
+})
+.then(d=>{
+  if(d&&d.buoys){
+    const active=d.buoys.filter(b=>b.hasData).length;
+    console.log('   Boias com dados:',active);
+    if(active>0){
+      const first=d.buoys.find(b=>b.hasData);
+      console.log('   Exemplo:',first.name);
+      console.log('   - Altura:',first.waveHeight,'m');
+      console.log('   - Período:',first.wavePeriod,'s');
+    }
+  }
+  
+  console.log('\n═══════════════════════════════════════════════════════════════════════════');
+  console.log('📊 RESULTADO FINAL');
+  console.log('═══════════════════════════════════════════════════════════════════════════\n');
+  
+  if(d&&d.buoys&&d.buoys.some(b=>b.hasData)){
+    console.log('🎉 SISTEMA FUNCIONANDO PERFEITAMENTE!');
+    console.log('');
+    console.log('Próximos passos:');
+    console.log('1. Recarregue a página (Ctrl+R)');
+    console.log('2. Navegue até um pico');
+    console.log('3. Veja o indicador PNBOIA no card de condições');
+    console.log('');
+  }else{
+    console.log('⚠️ Sistema OK, mas sem dados das boias ainda.');
+    console.log('');
+    console.log('Próximos passos:');
+    console.log('1. Aguarde 30 segundos');
+    console.log('2. Recarregue a página (Ctrl+R)');
+    console.log('3. Se ainda sem dados, rode este teste novamente');
+    console.log('');
+  }
+  
+  console.log('═══════════════════════════════════════════════════════════════════════════');
+})
+.catch(e=>{
+  console.log('\n═══════════════════════════════════════════════════════════════════════════');
+  console.log('❌ ERRO');
+  console.log('═══════════════════════════════════════════════════════════════════════════\n');
+  console.error('Mensagem:',e.message);
+  console.log('');
+  if(e.message.includes('404')){
+    console.log('Causa: Deploy do Edge Function ainda não chegou');
+    console.log('Solução: Aguarde mais 1-2 minutos e rode novamente');
+  }else{
+    console.log('Causa: Cold start ou erro inesperado');
+    console.log('Solução: Aguarde 30s e rode novamente');
+  }
+  console.log('\n═══════════════════════════════════════════════════════════════════════════');
+});
+
+═══════════════════════════════════════════════════════════════════════════

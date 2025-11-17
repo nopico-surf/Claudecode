@@ -1,0 +1,237 @@
+═══════════════════════════════════════════════════════════
+🎬 O QUE VAI ACONTECER DEPOIS DO PUSH
+═══════════════════════════════════════════════════════════
+
+📅 AGORA (ANTES DO PUSH):
+═══════════════════════════════════════════════════════════
+
+Domínios que funcionam:
+  • nopico.figma.site         ✅
+  • www.nopico.com.br         ✅ (sem meta tags)
+
+═══════════════════════════════════════════════════════════
+🚀 VOCÊ FAZ O PUSH:
+═══════════════════════════════════════════════════════════
+
+Terminal:
+┌─────────────────────────────────────────────────────────┐
+│ $ git add .                                             │
+│ $ git commit -m "feat: v2.6 - migração domínio final"   │
+│ $ git push                                              │
+│                                                         │
+│ Counting objects: 8, done.                             │
+│ Writing objects: 100% (8/8), 2.31 KiB | 2.31 MiB/s    │
+│ Total 8 (delta 5), reused 0 (delta 0)                 │
+│ To github.com:seu-usuario/nopico.git                   │
+│    abc123..def456  main -> main                        │
+└─────────────────────────────────────────────────────────┘
+
+═══════════════════════════════════════════════════════════
+⏱️  30 SEGUNDOS DEPOIS:
+═══════════════════════════════════════════════════════════
+
+Figma Make detecta:
+┌─────────────────────────────────────────────────────────┐
+│ 🔔 Novo commit detectado no GitHub!                     │
+│ 📦 Iniciando build...                                   │
+│ ⚡ Compilando React...                                  │
+│ 📁 Copiando arquivos...                                 │
+│ ✅ Build concluído!                                     │
+└─────────────────────────────────────────────────────────┘
+
+═══════════════════════════════════════════════════════════
+⏱️  1-3 MINUTOS DEPOIS:
+═══════════════════════════════════════════════════════════
+
+Figma Make publica:
+┌─────────────────────────────────────────────────────────┐
+│ 🌐 Publicando em:                                       │
+│    • nopico.figma.site      ✅ Atualizado              │
+│    • www.nopico.com.br      ✅ Atualizado              │
+│                                                         │
+│ 📋 Mudanças:                                            │
+│    • index.html             ✅ Meta tags adicionadas    │
+│    • App.tsx                ✅ Versão v2.6.0            │
+│    • vercel.json            ✅ Header atualizado        │
+└─────────────────────────────────────────────────────────┘
+
+═══════════════════════════════════════════════════════════
+✅ SITE PUBLICADO! O QUE MUDOU:
+═══════════════════════════════════════════════════════════
+
+ANTES de abrir www.nopico.com.br:
+┌─────────────────────────────────────────────────────────┐
+│ <head>                                                  │
+│   <title>Nopico</title>                                │
+│   <meta name="description" content="...">              │
+│ </head>                                                 │
+└─────────────────────────────────────────────────────────┘
+
+AGORA quando abre www.nopico.com.br:
+┌─────────────────────────────────────────────────────────┐
+│ <head>                                                  │
+│   <title>Nopico</title>                                │
+│   <meta name="description" content="...">              │
+│                                                         │
+│   <!-- NOVO! -->                                        │
+│   <meta property="og:url"                              │
+│         content="https://www.nopico.com.br/">          │
+│   <meta property="og:title"                            │
+│         content="Nopico - Previsão de ondas...">       │
+│   <meta property="og:description"                      │
+│         content="Previsão de ondas...">                │
+│                                                         │
+│   <link rel="canonical"                                │
+│         href="https://www.nopico.com.br/">             │
+│ </head>                                                 │
+└─────────────────────────────────────────────────────────┘
+
+═══════════════════════════════════════════════════════════
+📱 QUANDO ALGUÉM COMPARTILHAR NO WHATSAPP:
+═══════════════════════════════════════════════════════════
+
+ANTES (v2.5):
+┌─────────────────────────────────────────────────────────┐
+│ De: João                                    10:30       │
+│ www.nopico.com.br                                       │
+└─────────────────────────────────────────────────────────┘
+    ↑ Só a URL, sem preview
+
+AGORA (v2.6):
+┌─────────────────────────────────────────────────────────┐
+│ De: João                                    10:30       │
+│ ┌─────────────────────────────────────────────────────┐ │
+│ │ 🌊 Nopico - Previsão de ondas por nível de surf    │ │
+│ │                                                     │ │
+│ │ Previsão de ondas para todos os picos de surf do   │ │
+│ │ Brasil, calibrada com dados reais das boias PNBOIA │ │
+│ │                                                     │ │
+│ │ www.nopico.com.br                                  │ │
+│ └─────────────────────────────────────────────────────┘ │
+└─────────────────────────────────────────────────────────┘
+    ↑ Card bonito com preview!
+
+═══════════════════════════════════════════════════════════
+🔍 QUANDO O GOOGLE INDEXAR:
+═══════════════════════════════════════════════════════════
+
+ANTES:
+┌─────────────────────────────────────────────────────────┐
+│ Google Search: "previsão ondas brasil"                  │
+│                                                         │
+│ Resultados:                                             │
+│ • Windguru.com                                          │
+│ • Surfguru.com.br                                       │
+│ • nopico.figma.site (?)                                 │
+│   ↑ URL confusa, baixa relevância                       │
+└─────────────────────────────────────────────────────────┘
+
+AGORA:
+┌─────────────────────────────────────────────────────────┐
+│ Google Search: "previsão ondas brasil"                  │
+│                                                         │
+│ Resultados:                                             │
+│ • Windguru.com                                          │
+│ • Surfguru.com.br                                       │
+│ • www.nopico.com.br ⭐                                   │
+│   Nopico - Previsão de ondas por nível de surf         │
+│   Previsão de ondas para todos os picos de surf...     │
+│   ↑ URL profissional, alta relevância                   │
+└─────────────────────────────────────────────────────────┘
+
+═══════════════════════════════════════════════════════════
+🧪 TESTES QUE VOCÊ VAI FAZER:
+═══════════════════════════════════════════════════════════
+
+TESTE 1: Abrir home
+┌─────────────────────────────────────────────────────────┐
+│ Browser: https://www.nopico.com.br/                     │
+│          ↓                                              │
+│ ┌─────────────────────────────────────────────────────┐ │
+│ │ 🌊 Previsão de ondas por nível de surf              │ │
+│ │                                                     │ │
+│ │ 🔍 [Buscar pico...]                                 │ │
+│ │                                                     │ │
+│ │ 📍 SANTA CATARINA                                   │ │
+│ │ 📍 RIO DE JANEIRO                                   │ │
+│ │ 📍 SÃO PAULO                                        │ │
+│ └─────────────────────────────────────────────────────┘ │
+└─────────────────────────────────────────────────────────┘
+    ✅ FUNCIONOU!
+
+TESTE 2: Abrir admin
+┌─────────────────────────────────────────────────────────┐
+│ Browser: https://www.nopico.com.br/admin                │
+│          ↓                                              │
+│ ┌─────────────────────────────────────────────────────┐ │
+│ │ 🔒 ADMIN LOGIN                                      │ │
+│ │                                                     │ │
+│ │ Usuário: [admin]                                    │ │
+│ │ Senha:   [••••••••••]                               │ │
+│ │                                                     │ │
+│ │ [ENTRAR]                                            │ │
+│ └─────────────────────────────────────────────────────┘ │
+└─────────────────────────────────────────────────────────┘
+    ✅ FUNCIONOU!
+
+TESTE 3: Testar redirect
+┌─────────────────────────────────────────────────────────┐
+│ Browser: http://nopico.com.br/                          │
+│          ↓                                              │
+│ [Redirecionando...]                                     │
+│          ↓                                              │
+│ Browser: https://www.nopico.com.br/                     │
+│ (mesma tela da home)                                    │
+└─────────────────────────────────────────────────────────┘
+    ✅ FUNCIONOU!
+
+TESTE 4: Compartilhar no WhatsApp
+┌─────────────────────────────────────────────────────────┐
+│ WhatsApp Desktop/Mobile:                                │
+│                                                         │
+│ Digite: www.nopico.com.br                               │
+│ Enter                                                   │
+│         ↓                                               │
+│ [Carregando preview...]                                 │
+│         ↓                                               │
+│ ┌─────────────────────────────────────────────────────┐ │
+│ │ 🌊 Nopico - Previsão de ondas                       │ │
+│ │ Previsão de ondas para todos os picos...           │ │
+│ │ www.nopico.com.br                                  │ │
+│ └─────────────────────────────────────────────────────┘ │
+└─────────────────────────────────────────────────────────┘
+    ✅ FUNCIONOU!
+
+═══════════════════════════════════════════════════════════
+📊 RESUMO FINAL:
+═══════════════════════════════════════════════════════════
+
+O que você tinha ANTES:
+  • Site funcionando em nopico.figma.site
+  • www.nopico.com.br conectado mas sem meta tags
+  • Preview social básico
+
+O que você tem AGORA:
+  ✅ Site funcionando em www.nopico.com.br (oficial)
+  ✅ Meta tags Open Graph (preview bonito)
+  ✅ Canonical URL (SEO otimizado)
+  ✅ Twitter Cards (compartilhamento Twitter)
+  ✅ Domínio profissional
+  ✅ Pronto para produção
+
+═══════════════════════════════════════════════════════════
+🚀 FAZER AGORA:
+═══════════════════════════════════════════════════════════
+
+git add .
+git commit -m "feat: v2.6 - migração para www.nopico.com.br"
+git push
+
+═══════════════════════════════════════════════════════════
+
+🌊 Versão: v2.6.0
+🎯 Status: PRONTO PARA PUSH
+⏱️  Tempo estimado: 1-3 minutos após push
+✨ Resultado: Site profissional no domínio final!
+
+🏄‍♂️ Boa surf!

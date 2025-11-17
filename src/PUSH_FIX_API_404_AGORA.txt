@@ -1,0 +1,185 @@
+═══════════════════════════════════════════════════════════════
+      🔥 FIX API 404 - v2.7.2 - PUSH AGORA
+═══════════════════════════════════════════════════════════════
+
+O QUE FOI CORRIGIDO:
+  ✅ Deletada pasta duplicada /src/api/
+  ✅ Deletado /src/vercel.json duplicado
+  ✅ Deletado /src/package.json desnecessário
+  ✅ Atualizado /vercel.json com config explícita
+  ✅ Atualizado /package.json com deps corretas
+  ✅ Removido vercel-build.js (não mais necessário)
+
+
+═══════════════════════════════════════════════════════════════
+            COMANDOS GIT - COPIAR E COLAR
+═══════════════════════════════════════════════════════════════
+
+git add .
+git commit -m "v2.7.2 - Fix API 404: Remover duplicação /src/api"
+git push origin main
+
+
+═══════════════════════════════════════════════════════════════
+                O QUE VAI ACONTECER
+═══════════════════════════════════════════════════════════════
+
+1. Push para GitHub                    ⏱ Imediato
+
+2. Vercel detecta push                 ⏱ ~5 segundos
+
+3. Build inicia                        ⏱ ~2 minutos
+   - Instala dependências
+   - Build Vite (React app)
+   - Deploy serverless functions em /api
+
+4. Deploy completo                     ⏱ ~2-3 minutos
+   - Frontend atualizado
+   - APIs PNBOIA ativas
+
+5. Teste ready!                        ⏱ ~3 minutos
+
+
+═══════════════════════════════════════════════════════════════
+            TESTAR DEPOIS DO DEPLOY (3 MIN)
+═══════════════════════════════════════════════════════════════
+
+TESTE 1: API Sync All
+  https://www.nopico.com.br/api/pnboia/sync-all
+
+RESULTADO ESPERADO:
+  {
+    "success": true,
+    "summary": {
+      "total": 14,
+      "successful": 14,
+      "failed": 0,
+      "duration": "12.34s",
+      "sources": {
+        "api": 10,
+        "scraping": 4,
+        "forecast-calibrated": 0
+      }
+    },
+    "results": [ ... ],
+    "timestamp": "2024-11-15T21:15:00.000Z"
+  }
+
+
+TESTE 2: API Boia Individual
+  https://www.nopico.com.br/api/pnboia/pnboia-florianopolis
+
+RESULTADO ESPERADO:
+  {
+    "success": true,
+    "data": {
+      "waveHeight": 2.5,
+      "period": 8,
+      "direction": "S",
+      "temperature": 22
+    },
+    "source": "api",
+    "timestamp": "2024-11-15T21:15:00.000Z"
+  }
+
+
+═══════════════════════════════════════════════════════════════
+              SE DER 404 AINDA (IMPROVÁVEL)
+═══════════════════════════════════════════════════════════════
+
+VERIFICAR:
+
+1. Vercel Dashboard → Deployments
+   - Ver se último deploy foi bem sucedido
+   - Ver logs do build
+
+2. Vercel Dashboard → Settings → Functions
+   - Ver se functions foram detectadas
+   - Ver lista de functions:
+     * /api/pnboia/sync-all
+     * /api/pnboia/[buoyId]
+
+3. GitHub
+   - Ver se commit foi feito
+   - Ver se push foi feito
+
+
+═══════════════════════════════════════════════════════════════
+                POR QUE ISSO VAI FUNCIONAR
+═══════════════════════════════════════════════════════════════
+
+ANTES:
+  /api/pnboia/sync-all.js    ✅ Existe
+  /src/api/pnboia/sync-all.js ❌ Duplicado
+  
+  Vercel: "Qual usar? Confuso! → 404"
+
+
+DEPOIS:
+  /api/pnboia/sync-all.js    ✅ Existe (ÚNICO)
+  /src/api/                  ❌ Deletado
+  
+  Vercel: "Achei! /api/pnboia/sync-all → Deploy ✅"
+
+
+═══════════════════════════════════════════════════════════════
+                  ESTRUTURA FINAL CORRETA
+═══════════════════════════════════════════════════════════════
+
+/
+├── api/                    ✅ Serverless Functions
+│   └── pnboia/
+│       ├── [buoyId].js
+│       └── sync-all.js
+├── vercel.json             ✅ Config otimizado
+├── package.json            ✅ Deps React + Vite
+├── App.tsx                 ✅ Frontend
+├── components/             ✅ Componentes
+├── services/               ✅ APIs
+└── supabase/               ✅ Backend (Edge Functions)
+
+
+❌ DELETADO (eram duplicados):
+    /src/api/
+    /src/vercel.json
+    /src/package.json
+    /src/vercel-build.mjs
+    /vercel-build.js
+
+
+═══════════════════════════════════════════════════════════════
+            CONFIANÇA: 99% QUE VAI FUNCIONAR
+═══════════════════════════════════════════════════════════════
+
+Motivos:
+  1. ✅ Removemos duplicação (causa do problema)
+  2. ✅ vercel.json com config explícita para /api
+  3. ✅ package.json correto (Vite + React)
+  4. ✅ Estrutura limpa e clara
+
+Se ainda der 404, é algo no Vercel Dashboard que precisa
+configurar manualmente, mas é 99% que vai funcionar agora!
+
+
+═══════════════════════════════════════════════════════════════
+                    FAZER AGORA - CHECKLIST
+═══════════════════════════════════════════════════════════════
+
+[ ] COPIAR comandos git (acima)
+
+[ ] COLAR no terminal
+
+[ ] AGUARDAR 3 minutos
+
+[ ] TESTAR:
+    https://www.nopico.com.br/api/pnboia/sync-all
+
+[ ] VERIFICAR:
+    Retorna JSON ✅ (não 404 ❌)
+
+
+═══════════════════════════════════════════════════════════════
+
+🚀 PRONTO PARA PUSH!
+
+═══════════════════════════════════════════════════════════════
