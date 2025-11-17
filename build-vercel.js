@@ -28,20 +28,21 @@ export default defineConfig({
   }
 });`;
 
-// 2. Criar tailwind.config.js COMPLETO em /src
-const tailwindConfig = `/** @type {import('tailwindcss').Config} */
+// 2. Criar tailwind.config.js em /src com PATHS ABSOLUTOS
+const tailwindConfig = `import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+/** @type {import('tailwindcss').Config} */
 export default {
   content: [
-    "./index.html",
-    "./**/*.{js,ts,jsx,tsx}",
-    "./components/**/*.{js,ts,jsx,tsx}",
-    "./pages/**/*.{js,ts,jsx,tsx}",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
-  safelist: [
-    'bg-blue-500',
-    'text-red-500',
-    // Adicione classes que podem ser dinâmicas
+    path.resolve(__dirname, './index.html'),
+    path.resolve(__dirname, './**/*.{js,ts,jsx,tsx}'),
+    path.resolve(__dirname, './components/**/*.{js,ts,jsx,tsx}'),
+    path.resolve(__dirname, './pages/**/*.{js,ts,jsx,tsx}'),
+    path.resolve(__dirname, './admin/**/*.{js,ts,jsx,tsx}'),
   ],
   theme: {
     extend: {},
@@ -53,16 +54,20 @@ try {
   fs.writeFileSync('vite.config.ts', viteConfig);
   console.log('✅ vite.config.ts criado');
   
-  // Criar tailwind.config.js em /src (se não existir)
-  if (!fs.existsSync('src/tailwind.config.js')) {
-    fs.writeFileSync('src/tailwind.config.js', tailwindConfig);
-    console.log('✅ tailwind.config.js criado em /src');
-  } else {
-    console.log('✅ tailwind.config.js já existe');
-  }
+  fs.writeFileSync('src/tailwind.config.js', tailwindConfig);
+  console.log('✅ tailwind.config.js criado com paths absolutos');
 } catch (error) {
   console.error('❌ Erro:', error);
   process.exit(1);
+}
+
+console.log('🔍 Listando arquivos React/TS em /src...');
+try {
+  const files = execSync('find src -name "*.tsx" -o -name "*.jsx" -o -name "*.ts" -o -name "*.js" | grep -v node_modules | head -30').toString();
+  console.log(files);
+  console.log('📊 Total de arquivos encontrados:', files.split('\n').filter(f => f).length);
+} catch (e) {
+  console.warn('⚠️ Não foi possível listar arquivos');
 }
 
 console.log('📦 Instalando dependências...');
@@ -79,30 +84,28 @@ try {
   console.log('✅ Build concluído!');
 } catch (error) {
   console.error('❌ Erro no build:', error);
-  
-  // Se falhar, mostrar mais detalhes
-  console.log('📋 Listando arquivos /src:');
-  try {
-    const files = execSync('find src -name "*.tsx" -o -name "*.jsx" | head -20').toString();
-    console.log(files);
-  } catch (e) {}
-  
   process.exit(1);
 }
 
-console.log('📊 Verificando output...');
-if (fs.existsSync('build/index.html')) {
-  const files = fs.readdirSync('build');
+console.log('📊 Analisando CSS gerado...');
+if (fs.existsSync('build')) {
+  const files = fs.readdirSync('build/assets');
   const cssFiles = files.filter(f => f.endsWith('.css'));
   
-  console.log(`✅ Build OK - ${files.length} arquivos`);
-  console.log(`🎨 Arquivos CSS:`);
+  console.log(`✅ Build OK`);
+  console.log(`📁 Arquivos CSS gerados:`);
   
   cssFiles.forEach(file => {
-    const size = fs.statSync(path.join('build', file)).size;
-    console.log(`   ${file}: ${(size / 1024).toFixed(2)} KB`);
+    const fullPath = path.join('build/assets', file);
+    const size = fs.statSync(fullPath).size;
+    const sizeKB = (size / 1024).toFixed(2);
+    console.log(`   ${file}: ${sizeKB} KB`);
+    
+    if (size < 5000) {
+      console.warn(`   ⚠️ ALERTA: CSS muito pequeno! Tailwind pode não estar compilando tudo.`);
+    }
   });
 } else {
-  console.error('❌ Build falhou - sem index.html');
+  console.error('❌ Build falhou');
   process.exit(1);
 }
