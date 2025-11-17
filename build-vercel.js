@@ -2,9 +2,9 @@ const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 
-console.log('🔧 Preparando build...');
+console.log('🔧 Corrigindo configurações...');
 
-// 1. Criar vite.config.ts na RAIZ (Figma Make sobrescreve, então recriamos)
+// 1. Criar vite.config.ts
 const viteConfig = `import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
@@ -21,9 +21,6 @@ export default defineConfig({
       input: path.resolve(__dirname, 'src/index.html')
     }
   },
-  css: {
-    postcss: path.resolve(__dirname, 'src/postcss.config.js')
-  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src')
@@ -31,60 +28,81 @@ export default defineConfig({
   }
 });`;
 
-// 2. Criar configs Tailwind em /src (Figma Make não sobrescreve)
-const postcssConfig = `export default {
-  plugins: {
-    '@tailwindcss/postcss': {}
-  }
-};`;
-
-const tailwindConfig = `export default {
+// 2. Criar tailwind.config.js COMPLETO em /src
+const tailwindConfig = `/** @type {import('tailwindcss').Config} */
+export default {
   content: [
     "./index.html",
     "./**/*.{js,ts,jsx,tsx}",
+    "./components/**/*.{js,ts,jsx,tsx}",
+    "./pages/**/*.{js,ts,jsx,tsx}",
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
+  safelist: [
+    'bg-blue-500',
+    'text-red-500',
+    // Adicione classes que podem ser dinâmicas
   ],
   theme: {
     extend: {},
   },
   plugins: [],
-};`;
+}`;
 
 try {
   fs.writeFileSync('vite.config.ts', viteConfig);
-  console.log('✅ vite.config.ts criado na raiz');
+  console.log('✅ vite.config.ts criado');
   
-  fs.writeFileSync('src/postcss.config.js', postcssConfig);
-  fs.writeFileSync('src/tailwind.config.js', tailwindConfig);
-  console.log('✅ Configs Tailwind criados em /src');
+  // Criar tailwind.config.js em /src (se não existir)
+  if (!fs.existsSync('src/tailwind.config.js')) {
+    fs.writeFileSync('src/tailwind.config.js', tailwindConfig);
+    console.log('✅ tailwind.config.js criado em /src');
+  } else {
+    console.log('✅ tailwind.config.js já existe');
+  }
 } catch (error) {
-  console.error('❌ Erro ao criar configs:', error);
+  console.error('❌ Erro:', error);
   process.exit(1);
 }
 
-console.log('📦 Instalando Tailwind...');
+console.log('📦 Instalando dependências...');
 try {
-  execSync('npm install --save-dev @tailwindcss/postcss@latest autoprefixer@latest', { 
-    stdio: 'inherit' 
-  });
-  console.log('✅ Tailwind instalado!');
+  execSync('npm install --prefer-offline --no-audit', { stdio: 'inherit' });
+  console.log('✅ Dependências instaladas');
 } catch (error) {
   console.warn('⚠️ Aviso:', error.message);
 }
 
 console.log('🚀 Rodando build...');
 try {
-  execSync('npx vite build', { stdio: 'inherit' });
+  execSync('npm run build', { stdio: 'inherit' });
   console.log('✅ Build concluído!');
 } catch (error) {
   console.error('❌ Erro no build:', error);
+  
+  // Se falhar, mostrar mais detalhes
+  console.log('📋 Listando arquivos /src:');
+  try {
+    const files = execSync('find src -name "*.tsx" -o -name "*.jsx" | head -20').toString();
+    console.log(files);
+  } catch (e) {}
+  
   process.exit(1);
 }
 
 console.log('📊 Verificando output...');
 if (fs.existsSync('build/index.html')) {
   const files = fs.readdirSync('build');
+  const cssFiles = files.filter(f => f.endsWith('.css'));
+  
   console.log(`✅ Build OK - ${files.length} arquivos`);
+  console.log(`🎨 Arquivos CSS:`);
+  
+  cssFiles.forEach(file => {
+    const size = fs.statSync(path.join('build', file)).size;
+    console.log(`   ${file}: ${(size / 1024).toFixed(2)} KB`);
+  });
 } else {
-  console.error('❌ Build falhou');
+  console.error('❌ Build falhou - sem index.html');
   process.exit(1);
 }
