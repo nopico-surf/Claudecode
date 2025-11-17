@@ -1,216 +1,108 @@
 const fs = require('fs');
-const { execSync } = require('child_process');
 const path = require('path');
+const { execSync } = require('child_process');
 
-console.log('🚀 Iniciando build customizado para Vercel...');
-console.log('');
+console.log('🔧 Corrigindo configurações...');
 
-// ============================================================================
-// DETECTAR ESTRUTURA: Figma Make (raiz) ou GitHub (com /src)
-// ============================================================================
-const hasSrcFolder = fs.existsSync('src');
-console.log(`📁 Estrutura detectada: ${hasSrcFolder ? 'GitHub (com /src)' : 'Figma Make (raiz)'}`);
-console.log('');
+// 1. Criar vite.config.ts
+const viteConfig = `import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import path from 'path';
 
-// ============================================================================
-// PASSO 1: Garantir que configs do Tailwind existem no local correto
-// ============================================================================
-const configDir = hasSrcFolder ? 'src' : '.';
-console.log(`📝 PASSO 1: Verificando configs em /${configDir}/...`);
-
-// Criar diretório src se necessário
-if (hasSrcFolder && !fs.existsSync('src')) {
-  fs.mkdirSync('src', { recursive: true });
-  console.log('✅ Diretório /src criado');
-}
-
-// postcss.config.js
-const postcssPath = path.join(configDir, 'postcss.config.js');
-if (!fs.existsSync(postcssPath)) {
-  const postcssConfig = `export default {
-  plugins: {
-    '@tailwindcss/postcss': {}
+export default defineConfig({
+  plugins: [react()],
+  base: '/',
+  root: path.resolve(__dirname, 'src'),
+  publicDir: path.resolve(__dirname, 'public'),
+  build: {
+    outDir: path.resolve(__dirname, 'build'),
+    emptyOutDir: true,
+    rollupOptions: {
+      input: path.resolve(__dirname, 'src/index.html')
+    }
+  },
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, 'src')
+    }
   }
-};`;
-  
-  fs.writeFileSync(postcssPath, postcssConfig);
-  console.log(`✅ ${postcssPath} criado`);
-} else {
-  console.log(`✅ ${postcssPath} já existe`);
-}
+});`;
 
-// tailwind.config.js
-const tailwindPath = path.join(configDir, 'tailwind.config.js');
-if (!fs.existsSync(tailwindPath)) {
-  const tailwindConfig = `export default {
+// 2. Criar tailwind.config.js COMPLETO em /src
+const tailwindConfig = `/** @type {import('tailwindcss').Config} */
+export default {
   content: [
     "./index.html",
     "./**/*.{js,ts,jsx,tsx}",
+    "./components/**/*.{js,ts,jsx,tsx}",
+    "./pages/**/*.{js,ts,jsx,tsx}",
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
+  safelist: [
+    'bg-blue-500',
+    'text-red-500',
+    // Adicione classes que podem ser dinâmicas
   ],
   theme: {
     extend: {},
   },
   plugins: [],
-};`;
-  
-  fs.writeFileSync(tailwindPath, tailwindConfig);
-  console.log(`✅ ${tailwindPath} criado`);
-} else {
-  console.log(`✅ ${tailwindPath} já existe`);
-}
-
-console.log('');
-
-// ============================================================================
-// PASSO 2: Criar vite.config.ts na RAIZ
-// ============================================================================
-console.log('📝 PASSO 2: Criando vite.config.ts na raiz...');
-
-const viteConfig = hasSrcFolder 
-  ? `import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import { resolve } from 'path';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-export default defineConfig({
-  plugins: [react()],
-  base: '/',
-  root: './src',
-  publicDir: resolve(__dirname, './public'),
-  css: {
-    postcss: './src/postcss.config.js'
-  },
-  build: {
-    outDir: resolve(__dirname, './build'),
-    emptyOutDir: true,
-    sourcemap: false
-  },
-  resolve: {
-    alias: {
-      '@': resolve(__dirname, './src')
-    }
-  }
-});`
-  : `import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-
-export default defineConfig({
-  plugins: [react()],
-  base: '/',
-  build: {
-    outDir: './build',
-    emptyOutDir: true,
-    sourcemap: false
-  }
-});`;
-
-fs.writeFileSync('vite.config.ts', viteConfig);
-console.log('✅ vite.config.ts criado na raiz');
-console.log('');
-
-// ============================================================================
-// PASSO 3: Verificar index.html
-// ============================================================================
-console.log('📝 PASSO 3: Verificando index.html...');
-
-const indexHtmlPath = hasSrcFolder ? path.join('src', 'index.html') : 'index.html';
-
-if (!fs.existsSync(indexHtmlPath)) {
-  const indexHtml = `<!DOCTYPE html>
-<html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Previsão de ondas por nível de surf para todos os picos do Brasil. Consulte altura das ondas, direção do vento, maré e temperatura da água em tempo real." />
-    <meta name="keywords" content="surf, ondas, previsão, Brasil, picos de surf, forecast" />
-    <title>Previsão de ondas por nível de surf | nopico.com.br</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="${hasSrcFolder ? '/main.tsx' : './main.tsx'}"></script>
-  </body>
-</html>`;
-  
-  fs.writeFileSync(indexHtmlPath, indexHtml);
-  console.log(`✅ ${indexHtmlPath} criado`);
-} else {
-  console.log(`✅ ${indexHtmlPath} já existe`);
-}
-console.log('');
-
-// ============================================================================
-// PASSO 4: Instalar @tailwindcss/postcss se necessário
-// ============================================================================
-console.log('📦 PASSO 4: Verificando @tailwindcss/postcss...');
+}`;
 
 try {
-  require.resolve('@tailwindcss/postcss');
-  console.log('✅ @tailwindcss/postcss já instalado');
-} catch (e) {
-  console.log('📦 Instalando @tailwindcss/postcss...');
-  execSync('npm install --save-dev @tailwindcss/postcss@^4.0.0 autoprefixer@^10.4.20 postcss@^8.4.47', { stdio: 'inherit' });
-  console.log('✅ @tailwindcss/postcss instalado');
+  fs.writeFileSync('vite.config.ts', viteConfig);
+  console.log('✅ vite.config.ts criado');
+  
+  // Criar tailwind.config.js em /src (se não existir)
+  if (!fs.existsSync('src/tailwind.config.js')) {
+    fs.writeFileSync('src/tailwind.config.js', tailwindConfig);
+    console.log('✅ tailwind.config.js criado em /src');
+  } else {
+    console.log('✅ tailwind.config.js já existe');
+  }
+} catch (error) {
+  console.error('❌ Erro:', error);
+  process.exit(1);
 }
-console.log('');
 
-// ============================================================================
-// PASSO 5: Rodar o build do Vite
-// ============================================================================
-console.log('🏗️  PASSO 5: Rodando build do Vite...');
-console.log('');
+console.log('📦 Instalando dependências...');
+try {
+  execSync('npm install --prefer-offline --no-audit', { stdio: 'inherit' });
+  console.log('✅ Dependências instaladas');
+} catch (error) {
+  console.warn('⚠️ Aviso:', error.message);
+}
 
+console.log('🚀 Rodando build...');
 try {
   execSync('npm run build', { stdio: 'inherit' });
-  console.log('');
-  console.log('✅ Build concluído com sucesso!');
+  console.log('✅ Build concluído!');
 } catch (error) {
-  console.error('❌ Erro no build:', error.message);
+  console.error('❌ Erro no build:', error);
+  
+  // Se falhar, mostrar mais detalhes
+  console.log('📋 Listando arquivos /src:');
+  try {
+    const files = execSync('find src -name "*.tsx" -o -name "*.jsx" | head -20').toString();
+    console.log(files);
+  } catch (e) {}
+  
   process.exit(1);
 }
 
-// ============================================================================
-// PASSO 6: Verificar se o build foi gerado
-// ============================================================================
-console.log('');
-console.log('🔍 PASSO 6: Verificando arquivos gerados...');
-
-const buildDir = 'build';
-if (fs.existsSync(buildDir)) {
-  const files = fs.readdirSync(buildDir);
-  console.log(`✅ Build gerado em /${buildDir}/ com ${files.length} arquivos`);
+console.log('📊 Verificando output...');
+if (fs.existsSync('build/index.html')) {
+  const files = fs.readdirSync('build');
+  const cssFiles = files.filter(f => f.endsWith('.css'));
   
-  // Verificar se tem CSS
-  const hasCSS = files.some(file => file.endsWith('.css'));
-  if (hasCSS) {
-    console.log('✅ Arquivo CSS gerado com sucesso!');
-  } else {
-    console.warn('⚠️  ATENÇÃO: Nenhum arquivo CSS encontrado no build!');
-  }
+  console.log(`✅ Build OK - ${files.length} arquivos`);
+  console.log(`🎨 Arquivos CSS:`);
   
-  // Verificar se tem JS
-  const hasJS = files.some(file => file.endsWith('.js'));
-  if (hasJS) {
-    console.log('✅ Arquivos JavaScript gerados com sucesso!');
-  }
-  
-  // Verificar se tem index.html
-  if (files.includes('index.html')) {
-    console.log('✅ index.html gerado com sucesso!');
-  }
+  cssFiles.forEach(file => {
+    const size = fs.statSync(path.join('build', file)).size;
+    console.log(`   ${file}: ${(size / 1024).toFixed(2)} KB`);
+  });
 } else {
-  console.error('❌ Diretório /build não foi criado!');
+  console.error('❌ Build falhou - sem index.html');
   process.exit(1);
 }
-
-console.log('');
-console.log('═══════════════════════════════════════════════════════════');
-console.log('🎉 BUILD CONCLUÍDO COM SUCESSO!');
-console.log('═══════════════════════════════════════════════════════════');
-console.log('');
-console.log('📦 Arquivos prontos em /build/');
-console.log('🚀 Deploy pode prosseguir!');
-console.log('');
